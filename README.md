@@ -1,36 +1,92 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Gestión de Clientes
 
-## Getting Started
+Sistema web para la gestión integral de clientes desarrollado con Next.js 16 y Supabase.
 
-First, run the development server:
+## Descripción
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+Plataforma empresarial para administrar clientes con autenticación segura basada en roles (Administrador/Empleado), registro de clientes, perfiles de usuario y gestión de tareas.
+
+## Tecnologías
+
+- **Frontend**: Next.js 16 (App Router), React 19, TypeScript
+- **Estilos**: Tailwind CSS 4, shadcn/ui
+- **Backend**: Supabase (Auth, Database, Storage)
+- **Validación**: Zod, React Hook Form
+- **UI**: Radix UI, Lucide Icons
+
+## Estructura del Proyecto
+
+```
+gestion-clientes/
+├── actions/              # Server Actions de Next.js
+│   ├── admin/          # Acciones del panel de administración
+│   └── auth/          # Acciones de autenticación
+├── app/               # App Router de Next.js
+│   ├── admin/         # Panel de administración
+│   ├── empleado/     # Panel de empleado
+│   └── *.page.tsx    # Páginas públicas
+├── components/       # Componentes React
+│   ├── auth/          # Componentes de autenticación
+│   └── ui/            # Componentes UI (shadcn)
+├── context/           # Contextos de React
+├── lib/               # Utilidades y clientes
+│   └── supabase/      # Clientes de Supabase
+├── interface/         # TypeScript interfaces
+└── sb-*.sql          # Scripts de base de datos
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Roles de Usuario
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+| Rol           | Descripción                                |
+| ------------- | ------------------------------------------ |
+| Administrador | Acceso completo, puede registrar clientes  |
+| Empleado      | Acceso limitado, gestión de tareas propias |
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Configuración
 
-## Learn More
+### Variables de Entorno
 
-To learn more about Next.js, take a look at the following resources:
+```env
+NEXT_PUBLIC_SUPABASE_URL=tu_supabase_url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=tu_supabase_anon_key
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Base de Datos
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Ejecutar los scripts SQL en Supabase SQL Editor:
 
-## Deploy on Vercel
+1. `sb-perfil.sql` - Tabla de perfiles y triggers de autenticación
+2. `sb-ejTabla.sql` - Tabla de tareas y storage
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Instalación
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```bash
+npm install
+npm run dev
+```
+
+El servidor desarrollo corre en `http://localhost:3000`.
+
+## Scripts Disponibles
+
+| Comando         | Descripción                    |
+| --------------- | ------------------------------ |
+| `npm run dev`   | Iniciar servidor de desarrollo |
+| `npm run build` | Build de producción            |
+| `npm run start` | Iniciar servidor de producción |
+| `npm run lint`  | Ejecutar ESLint                |
+
+## Características
+
+- Autenticación con email/password (Supabase Auth)
+- Recuperación de contraseña
+- Perfiles de usuario con avatar
+- Panel administrativo con registro de clientes
+- Listado de empleados
+- Gestión de tareas por empleado
+- Upload de imágenes (avatares, tareas)
+- UI responsive con componentes accesibles
+
+## Licencia
+
+MIT
