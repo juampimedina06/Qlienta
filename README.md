@@ -4,7 +4,7 @@ Sistema web para la gestión integral de clientes desarrollado con Next.js 16 y 
 
 ## Descripción
 
-Plataforma empresarial para administrar clientes con autenticación segura basada en roles (Administrador/Empleado), registro de clientes, perfiles de usuario y gestión de tareas.
+Plataforma empresarial para administrar clientes con autenticación segura basada en roles (Administrador/Empleado/cliente), registro de clientes, perfiles de usuario y gestión de futuros clientes.
 
 ## Tecnologías
 
@@ -41,40 +41,7 @@ gestion-clientes/
 | ------------- | ------------------------------------------ |
 | Administrador | Acceso completo, puede registrar clientes  |
 | Empleado      | Acceso limitado, gestión de tareas propias |
-
-## Configuración
-
-### Variables de Entorno
-
-```env
-NEXT_PUBLIC_SUPABASE_URL=tu_supabase_url
-NEXT_PUBLIC_SUPABASE_ANON_KEY=tu_supabase_anon_key
-```
-
-### Base de Datos
-
-Ejecutar los scripts SQL en Supabase SQL Editor:
-
-1. `sb-perfil.sql` - Tabla de perfiles y triggers de autenticación
-2. `sb-ejTabla.sql` - Tabla de tareas y storage
-
-### Instalación
-
-```bash
-npm install
-npm run dev
-```
-
-El servidor desarrollo corre en `http://localhost:3000`.
-
-## Scripts Disponibles
-
-| Comando         | Descripción                    |
-| --------------- | ------------------------------ |
-| `npm run dev`   | Iniciar servidor de desarrollo |
-| `npm run build` | Build de producción            |
-| `npm run start` | Iniciar servidor de producción |
-| `npm run lint`  | Ejecutar ESLint                |
+| Cliente       | visualizacion de su proyecto a detalle     |
 
 ## Características
 
