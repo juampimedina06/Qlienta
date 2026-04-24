@@ -1,6 +1,7 @@
 'use server'
 
 import { createClient } from '@/lib/supabase/server'
+import { revalidatePath } from 'next/cache'
 
 export async function login(formData:{email: string, password: string}) {
   const supabase = await createClient()
@@ -29,6 +30,7 @@ export async function login(formData:{email: string, password: string}) {
     }
   }
 
+  revalidatePath('/', 'layout')
   return { 
     success: true,
     message: "Usuario autenticado exitosamente",

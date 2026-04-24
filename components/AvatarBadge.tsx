@@ -1,12 +1,13 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Badge } from "@/components/ui/badge";
+import { cn } from "@/lib/utils";
 
 interface AvatarBadgeProps {
   name: string | null;
   avatar_url?: string | null;
+  className?: string;
 }
 
-export const AvatarBadge = ({ name, avatar_url }: AvatarBadgeProps) => {
+export const AvatarBadge = ({ name, avatar_url, className }: AvatarBadgeProps) => {
   const getInitials = (name: string | null) => {
     if (!name) return "?";
     return name
@@ -18,14 +19,14 @@ export const AvatarBadge = ({ name, avatar_url }: AvatarBadgeProps) => {
   };
 
   return (
-    <Badge className="gap-2 h-10">
-      <Avatar>
+    <div className={cn("flex items-center gap-2", className)}>
+      <Avatar className="h-7 w-7 border border-inherit/20">
         <AvatarImage src={avatar_url || ""} />
-        <AvatarFallback className="text-neutral-500">
+        <AvatarFallback className="text-xs font-medium bg-transparent">
           {getInitials(name)}
         </AvatarFallback>
       </Avatar>
-      {name}
-    </Badge>
+      <span className="text-sm font-medium text-inherit">{name}</span>
+    </div>
   );
 };

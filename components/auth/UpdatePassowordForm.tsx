@@ -13,6 +13,7 @@ import toast from "react-hot-toast";
 import Link from "next/link";
 import { updatePassword } from "@/actions/auth/auth";
 import { useRouter } from "next/navigation";
+import { useAuth } from "@/context/AuthContext";
 
 // ✅ Schema con validación cruzada
 const formSchema = z
@@ -31,6 +32,20 @@ const UpdatePasswordForm = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const router = useRouter();
+  const { user } = useAuth();
+
+  const valorRuta = () => {
+    switch (user?.role) {
+      case "admin":
+        return "/admin/profile";
+      case "cliente":
+        return "/cliente/profile";
+      case "empleado":
+        return "/empleado/profile";
+      default:
+        return "/";
+    }
+  };
 
   const {
     register,
@@ -117,7 +132,7 @@ const UpdatePasswordForm = () => {
 
           {/* Volver */}
           <Link
-            href="/profile"
+            href={valorRuta()}
             className="block text-center text-sm mt-3 underline"
           >
             Volver

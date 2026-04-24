@@ -41,6 +41,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     supabase.auth.onAuthStateChange((event, session) => {
       const eventTypes = [
         "INITIAL_SESSION",
+        "SIGNED_IN",
         "USER_UPDATED",
         "TOKEN_REFRESHED",
         "PASSWORD_RECOVERY",

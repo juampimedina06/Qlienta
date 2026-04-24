@@ -1,5 +1,9 @@
-import React from "react";
+import UserProfile from "@/components/UserProfile";
 
-export default function ProfilePage() {
-  return <div>Profile</div>;
+export default function EmpleadoProfile() {
+  return (
+    <div className=" pt-20 flex justify-center items-center">
+      <UserProfile />
+    </div>
+  );
 }

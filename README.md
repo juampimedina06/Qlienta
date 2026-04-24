@@ -37,10 +37,11 @@ gestion-clientes/
 
 ## Roles de Usuario
 
-| Rol           | Descripción                                |
-| ------------- | ------------------------------------------ |
-| Administrador | Acceso completo, puede registrar clientes  |
-| Empleado      | Acceso limitado, gestión de tareas propias |
+| Rol           | Descripción                                                        |
+| ------------- | ------------------------------------------------------------------ |
+| Administrador | Acceso completo, puede registrar clientes                          |
+| Empleado      | Acceso limitado, gestión de futuros clientes                       |
+| Cliente       | Acceso limitado, visualizacion de su proyecto                      |
 
 ## Configuración
 
@@ -87,6 +88,6 @@ El servidor desarrollo corre en `http://localhost:3000`.
 - Upload de imágenes (avatares, tareas)
 - UI responsive con componentes accesibles
 
-## Licencia
+## Licencia 
 
 MIT
