@@ -5,39 +5,7 @@ import { AvatarBadge } from "@/components/AvatarBadge";
 import { getImagenUrl } from "@/lib/utils";
 import { useAuth } from "@/context/AuthContext";
 import { usePathname } from "next/navigation";
-import { cn } from "@/lib/utils";
 import { useState, useEffect } from "react";
-
-const navLinks = [
-  { href: "/empleado", label: "Panel" },
-  { href: "/empleado/cargar", label: "Cargar" },
-  { href: "/empleado/listado", label: "Clientes" },
-];
-
-function NavLink({
-  href,
-  label,
-  isActive,
-}: {
-  href: string;
-  label: string;
-  isActive: boolean;
-}) {
-  return (
-    <Link
-      href={href}
-      className={cn(
-        "relative px-4 py-2 text-sm font-medium transition-all duration-200",
-        isActive ? "text-slate-800" : "text-slate-500 hover:text-slate-700",
-      )}
-    >
-      <span className="relative z-10">{label}</span>
-      {isActive && (
-        <span className="absolute inset-0 -z-10 rounded-lg bg-gradient-to-b from-slate-100 to-slate-50/80 shadow-sm" />
-      )}
-    </Link>
-  );
-}
 
 export default function EmpleadoLayout({
   children,
@@ -86,21 +54,6 @@ export default function EmpleadoLayout({
             <span className="text-base font-semibold text-slate-800 tracking-tight">
               Gestión
             </span>
-          </div>
-
-          {/* Navigation links */}
-          <div className="hidden md:flex items-center gap-1">
-            {navLinks.map((link) => (
-              <NavLink
-                key={link.href}
-                href={link.href}
-                label={link.label}
-                isActive={
-                  pathname === link.href ||
-                  (link.href !== "/empleado" && pathname?.startsWith(link.href))
-                }
-              />
-            ))}
           </div>
 
           {/* User section */}
