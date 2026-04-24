@@ -7,6 +7,8 @@ import { useAuth } from "@/context/AuthContext";
 import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
 
+import { Menu, X } from "lucide-react";
+
 export default function EmpleadoLayout({
   children,
 }: {
@@ -15,10 +17,21 @@ export default function EmpleadoLayout({
   const { user } = useAuth();
   const pathname = usePathname();
   const [mounted, setMounted] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  // Close menu when pathname changes
+  useEffect(() => {
+    setIsMenuOpen(false);
+  }, [pathname]);
+
+  const navLinks = [
+    { href: "/empleado", label: "Dashboard" },
+    { href: "/empleado/profile", label: "Mi Perfil" },
+  ];
 
   return (
     <section className="min-h-screen flex flex-col bg-black">
@@ -32,10 +45,13 @@ export default function EmpleadoLayout({
       />
 
       {/* Header - cleaner and brighter */}
-      <header className="sticky top-0 z-50 border-b border-slate-200/50  backdrop-blur-md">
+      <header className="sticky top-0 z-50 border-b border-slate-200/50 ">
         <nav className="container mx-auto flex h-14 items-center justify-between px-4 lg:px-8">
           {/* Logo area */}
-          <div className="flex items-center gap-3">
+          <Link
+            href="/empleado"
+            className="flex items-center gap-3 hover:opacity-80 transition-opacity"
+          >
             <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-emerald-400 to-teal-500 shadow-sm shadow-emerald-500/20">
               <svg
                 className="h-4 w-4 text-white"
@@ -54,23 +70,61 @@ export default function EmpleadoLayout({
             <span className="text-base font-semibold text-slate-800 tracking-tight">
               Gestión
             </span>
-          </div>
+          </Link>
 
-          {/* User section */}
-          <div className="flex items-center gap-3">
+          {/* User section & Mobile Toggle */}
+          <div className="flex items-center gap-2">
             {user && mounted && (
-              <Link
-                href="/empleado/profile"
-                className="group flex items-center gap-2.5 rounded-full border border-slate-200  px-1.5 py-1 pr-3.5 transition-all duration-200 hover:border-slate-300 hover:bg-white"
-              >
-                <AvatarBadge
-                  name={user.name || "Usuario"}
-                  avatar_url={getImagenUrl(user.avatar_url || "")}
-                />
-              </Link>
+              <div className="hidden sm:block">
+                <Link
+                  href="/empleado/profile"
+                  className="group flex items-center gap-2.5 rounded-full border border-slate-200 px-1.5 py-1 pr-3.5 transition-all duration-200 hover:border-slate-300 hover:bg-white"
+                >
+                  <AvatarBadge
+                    name={user.name || "Usuario"}
+                    avatar_url={getImagenUrl(user.avatar_url || "")}
+                  />
+                </Link>
+              </div>
             )}
+
+            {/* Mobile menu toggle */}
+            <button
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              className="flex items-center justify-center h-9 w-9 rounded-lg border border-slate-200 text-slate-600 transition-all hover:bg-slate-50"
+              aria-label="Toggle menu"
+            >
+              {isMenuOpen ? <X size={18} /> : <Menu size={18} />}
+            </button>
           </div>
         </nav>
+
+        {/* Mobile Navigation Menu */}
+        {isMenuOpen && (
+          <div className="absolute top-14 left-0 right-0 border-b border-slate-200  backdrop-blur-xl animate-in slide-in-from-top duration-300 shadow-xl">
+            <div className="flex flex-col p-4 gap-1">
+              {navLinks.map((link) => {
+                const isActive = pathname === link.href;
+                return (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    className={`px-4 py-3 text-sm font-medium transition-all flex items-center justify-between ${
+                      isActive
+                        ? "border-l-2 border-white/90 text-white/90"
+                        : "text-slate-600 hover:text-white "
+                    }`}
+                  >
+                    {link.label}
+                    {isActive && (
+                      <div className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
+                    )}
+                  </Link>
+                );
+              })}
+            </div>
+          </div>
+        )}
       </header>
 
       {/* Main content */}
