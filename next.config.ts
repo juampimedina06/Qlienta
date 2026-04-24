@@ -6,7 +6,12 @@ const nextConfig: NextConfig = {
       {
         protocol: "https",
         hostname: "fzywtckjgmqlxvrshign.supabase.co",
-        pathname: "**",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "lh3.googleusercontent.com",
+        pathname: "/**",
       },
     ],
   },
