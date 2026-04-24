@@ -26,7 +26,10 @@ export async function login(formData:{email: string, password: string}) {
     return {
       success: true,
       message: "Usuario autenticado, pero hubo un problema al obtener el perfil",
-      data
+      data: {
+        ...data,
+        role: null
+      }
     }
   }
 
