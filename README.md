@@ -4,7 +4,7 @@ Sistema web para la gestión integral de clientes desarrollado con Next.js 16 y 
 
 ## Descripción
 
-Plataforma empresarial para administrar clientes con autenticación segura basada en roles (Administrador/Empleado), registro de clientes, perfiles de usuario y gestión de tareas.
+Plataforma empresarial para administrar clientes con autenticación segura basada en roles (Administrador/Empleado/cliente), registro de clientes, perfiles de usuario y gestión de futuros clientes.
 
 ## Tecnologías
 
@@ -37,11 +37,10 @@ gestion-clientes/
 
 ## Roles de Usuario
 
-| Rol           | Descripción                                                        |
-| ------------- | ------------------------------------------------------------------ |
-| Administrador | Acceso completo, puede registrar clientes                          |
-| Empleado      | Acceso limitado, gestión de futuros clientes                       |
-| Cliente       | Acceso limitado, visualizacion de su proyecto                      |
+| Rol           | Descripción                                |
+| ------------- | ------------------------------------------ |
+| Administrador | Acceso completo, puede registrar clientes  |
+| Empleado      | Acceso limitado, gestión de tareas propias |
 
 ## Configuración
 
@@ -88,6 +87,6 @@ El servidor desarrollo corre en `http://localhost:3000`.
 - Upload de imágenes (avatares, tareas)
 - UI responsive con componentes accesibles
 
-## Licencia 
+## Licencia
 
 MIT
