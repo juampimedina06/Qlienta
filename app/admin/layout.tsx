@@ -9,7 +9,6 @@ import { cn } from "@/lib/utils";
 import { useState, useEffect } from "react";
 
 const navLinks = [
-  { href: "/admin/clientes", label: "Clientes" },
   { href: "/admin/registrarCliente", label: "Nuevo Cliente" },
   { href: "/admin/futurosClientes", label: "Prospectos" },
 ];
@@ -43,6 +42,8 @@ function NavLink({
   );
 }
 
+import { Menu, X } from "lucide-react";
+
 export default function AdminLayout({
   children,
 }: {
@@ -50,6 +51,12 @@ export default function AdminLayout({
 }) {
   const { user } = useAuth();
   const pathname = usePathname();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  // Close menu when pathname changes
+  useEffect(() => {
+    setIsMenuOpen(false);
+  }, [pathname]);
 
   return (
     <section className="min-h-screen flex flex-col relative">
@@ -59,10 +66,13 @@ export default function AdminLayout({
       <div className="fixed inset-0 -z-10 bg-[radial-gradient(ellipse_at_bottom_left,_rgba(70,130,180,0.05),_transparent_40%)]" />
 
       {/* Header */}
-      <header className="sticky top-0 z-50 border-b border-white/5">
+      <header className="sticky top-0 z-50 border-b border-white/5 ">
         <nav className="container mx-auto flex h-16 items-center justify-between px-4 lg:px-8">
           {/* Logo area */}
-          <div className="flex items-center gap-3">
+          <Link
+            href="/admin"
+            className="flex items-center gap-3 hover:opacity-80 transition-opacity"
+          >
             <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-gradient-to-br from-indigo-500/20 to-purple-500/20 border border-white/10">
               <svg
                 className="h-5 w-5 text-white/80"
@@ -81,9 +91,9 @@ export default function AdminLayout({
             <span className="text-lg font-semibold text-white/90 tracking-tight">
               Gestión
             </span>
-          </div>
+          </Link>
 
-          {/* Navigation links */}
+          {/* Desktop Navigation links */}
           <div className="hidden md:flex items-center gap-1">
             {navLinks.map((link) => (
               <NavLink
@@ -98,12 +108,12 @@ export default function AdminLayout({
             ))}
           </div>
 
-          {/* User section */}
-          <div className="flex items-center gap-4">
+          {/* User section & Mobile Toggle */}
+          <div className="flex items-center gap-2 md:gap-4">
             {user && (
               <Link
                 href="/admin/profile"
-                className="group flex items-center gap-3 rounded-full border border-white/10 bg-white/5 px-2 py-1.5 pr-4 transition-all duration-300 hover:bg-white/10 hover:border-white/20"
+                className="group flex items-center gap-3 rounded-full border border-white/10 bg-white/5 px-2 py-1.5 transition-all duration-300 hover:bg-white/10 hover:border-white/20"
               >
                 <AvatarBadge
                   name={user.name || "Usuario"}
@@ -111,8 +121,47 @@ export default function AdminLayout({
                 />
               </Link>
             )}
+
+            {/* Mobile menu toggle */}
+            <button
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              className="flex md:hidden h-10 w-10 items-center justify-center rounded-lg border border-white/10 bg-white/5 text-white/80 transition-all hover:bg-white/10"
+              aria-label="Toggle menu"
+            >
+              {isMenuOpen ? <X size={20} /> : <Menu size={20} />}
+            </button>
           </div>
         </nav>
+
+        {/* Mobile Navigation Menu */}
+        {isMenuOpen && (
+          <div className="md:hidden absolute top-16 left-0 right-0 border-b border-white/5 bg-[#0a0a0a]/95 backdrop-blur-xl animate-in slide-in-from-top duration-300">
+            <div className="flex flex-col p-4 gap-2">
+              {navLinks.map((link) => {
+                const isActive =
+                  pathname === link.href ||
+                  (link.href !== "/admin" && pathname?.startsWith(link.href));
+                return (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    className={cn(
+                      "px-4 py-3 rounded-xl text-sm font-medium transition-all flex items-center justify-between",
+                      isActive
+                        ? "bg-indigo-500/10 text-indigo-400 border border-indigo-500/20"
+                        : "text-white/60 hover:text-white hover:bg-white/5",
+                    )}
+                  >
+                    {link.label}
+                    {isActive && (
+                      <div className="h-1.5 w-1.5 rounded-full bg-indigo-500 shadow-[0_0_8px_rgba(99,102,241,0.8)]" />
+                    )}
+                  </Link>
+                );
+              })}
+            </div>
+          </div>
+        )}
       </header>
 
       {/* Main content */}
