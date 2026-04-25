@@ -9,8 +9,9 @@ import { cn } from "@/lib/utils";
 import { useState, useEffect } from "react";
 
 const navLinks = [
-  { href: "/admin/registrarCliente", label: "Nuevo Cliente" },
-  { href: "/admin/futurosClientes", label: "Prospectos" },
+  { href: "/admin/registrarCliente", label: "Dar de Alta Cliente" },
+  { href: "/admin/futurosClientes", label: "Futuros Clientes" },
+  { href: "/admin/clientes", label: "Clientes Activos" },
 ];
 
 function NavLink({
@@ -94,7 +95,7 @@ export default function AdminLayout({
           </Link>
 
           {/* Desktop Navigation links */}
-          <div className="hidden md:flex items-center gap-1">
+          <div className="hidden sm:flex items-center gap-1">
             {navLinks.map((link) => (
               <NavLink
                 key={link.href}
@@ -125,7 +126,7 @@ export default function AdminLayout({
             {/* Mobile menu toggle */}
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="flex md:hidden h-10 w-10 items-center justify-center rounded-lg border border-white/10 bg-white/5 text-white/80 transition-all hover:bg-white/10"
+              className="flex sm:hidden h-10 w-10 items-center justify-center rounded-lg border border-white/10 bg-white/5 text-white/80 transition-all hover:bg-white/10"
               aria-label="Toggle menu"
             >
               {isMenuOpen ? <X size={20} /> : <Menu size={20} />}
@@ -135,7 +136,7 @@ export default function AdminLayout({
 
         {/* Mobile Navigation Menu */}
         {isMenuOpen && (
-          <div className="md:hidden absolute top-16 left-0 right-0 border-b border-white/5 bg-[#0a0a0a]/95 backdrop-blur-xl animate-in slide-in-from-top duration-300">
+          <div className="sm:hidden absolute top-16 left-0 right-0 border-b border-white/5 bg-[#0a0a0a]/95 backdrop-blur-xl animate-in slide-in-from-top duration-300">
             <div className="flex flex-col p-4 gap-2">
               {navLinks.map((link) => {
                 const isActive =

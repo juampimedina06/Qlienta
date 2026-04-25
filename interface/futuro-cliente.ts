@@ -14,6 +14,7 @@ export interface FuturoCliente {
   notas_internas: string | null;
   motivo_rechazo: string | null;
   creado_por: string | null;
+  proyecto_desplegado: string | null;
   created_at: string;
   updated_at: string;
 }

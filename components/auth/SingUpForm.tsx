@@ -63,11 +63,10 @@ const SignUpForm = ({ setTypeSelected }: AuthFormProps) => {
   };
 
   return (
-    <div className="w-full backdrop-blur-xl rounded-4xl pb-4">
+    <section className="w-full backdrop-blur-xl rounded-4xl pb-4">
       <div className="text-center">
-        <h1 className="text-3xl font-semibold my-4">Registrar Cliente</h1>
+        <h1 className="text-3xl font-semibold my-4">Registrar Usuario</h1>
       </div>
-
       <form onSubmit={handleSubmit(onSubmit)} className="mx-4 space-y-4 ">
         {/* Name */}
         <div>
@@ -118,7 +117,7 @@ const SignUpForm = ({ setTypeSelected }: AuthFormProps) => {
           Crear cuenta
         </Button>
       </form>
-    </div>
+    </section>
   );
 };
 

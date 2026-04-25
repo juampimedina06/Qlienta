@@ -2,10 +2,12 @@
 
 import { createClient } from "@/lib/supabase/server";
 import { revalidatePath } from "next/cache";
+import { getUser } from "@/actions/auth/get-user";
 
 export async function updateFuturoCliente(formData: FormData) {
   try {
     const supabase = await createClient();
+    const user = await getUser();
 
     const id = formData.get("id") as string;
     const nombre_negocio = formData.get("nombre_negocio") as string;
@@ -19,22 +21,30 @@ export async function updateFuturoCliente(formData: FormData) {
     const notas_internas = formData.get("notas_internas") as string;
     const motivo_rechazo = formData.get("motivo_rechazo") as string;
     const logo_negocio = formData.get("logo_negocio") as string;
+    const proyecto_desplegado = formData.get("proyecto_desplegado") as string;
+
+    const updateData: any = {
+      nombre_negocio,
+      ubicacion_negocio,
+      categoria,
+      informacion_negocio,
+      nombre_contacto,
+      email_contacto,
+      telefono_contacto,
+      estado,
+      notas_internas,
+      motivo_rechazo: estado === "rechazado" ? motivo_rechazo : null,
+      logo_negocio: logo_negocio || null,
+    };
+
+    // Solo el admin puede actualizar el proyecto desplegado
+    if (user?.role === "admin" && proyecto_desplegado !== null) {
+      updateData.proyecto_desplegado = proyecto_desplegado || null;
+    }
 
     const { data, error } = await supabase
       .from("futuros_clientes")
-      .update({
-        nombre_negocio,
-        ubicacion_negocio,
-        categoria,
-        informacion_negocio,
-        nombre_contacto,
-        email_contacto,
-        telefono_contacto,
-        estado,
-        notas_internas,
-        motivo_rechazo: estado === "rechazado" ? motivo_rechazo : null,
-        logo_negocio: logo_negocio || null,
-      })
+      .update(updateData)
       .eq("id", id)
       .select()
       .single();

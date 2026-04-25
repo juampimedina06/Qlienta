@@ -13,7 +13,7 @@ import { toast } from "react-hot-toast";
 
 const LIMIT = 10;
 
-export function FuturosClientesList() {
+export function FuturosClientesList({ soloDesplegados = false }: { soloDesplegados?: boolean }) {
   // Estado de los datos
   const [items, setItems] = useState<FuturoCliente[]>([]);
   const [page, setPage] = useState(0);
@@ -45,6 +45,7 @@ export function FuturosClientesList() {
           search: currentFilters.search,
           estado: currentFilters.estado,
           categoria: currentFilters.categoria,
+          soloDesplegados,
         });
 
         if (result.success && result.data) {
