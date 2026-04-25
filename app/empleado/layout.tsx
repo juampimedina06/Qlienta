@@ -8,6 +8,33 @@ import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
 
 import { Menu, X } from "lucide-react";
+import { cn } from "@/lib/utils";
+
+function NavLink({
+  href,
+  label,
+  isActive,
+}: {
+  href: string;
+  label: string;
+  isActive: boolean;
+}) {
+  return (
+    <Link
+      href={href}
+      className={cn(
+        "relative px-4 py-2 text-sm font-medium transition-all duration-300 ease-out",
+        isActive ? "text-white-900" : "text-white-500",
+        "hover:text-white-900",
+      )}
+    >
+      <span className="relative z-10">{label}</span>
+      {isActive && (
+        <span className="absolute inset-x-0 -bottom-[7px] h-0.5 bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)]" />
+      )}
+    </Link>
+  );
+}
 
 export default function EmpleadoLayout({
   children,
@@ -30,6 +57,7 @@ export default function EmpleadoLayout({
 
   const navLinks = [
     { href: "/empleado", label: "Dashboard" },
+    { href: "/empleado/desplegados", label: "Proyectos Desplegados" },
     { href: "/empleado/profile", label: "Mi Perfil" },
   ];
 
@@ -72,6 +100,18 @@ export default function EmpleadoLayout({
             </span>
           </Link>
 
+          {/* Desktop Navigation */}
+          <div className="hidden sm:flex items-center gap-1">
+            {navLinks.map((link) => (
+              <NavLink
+                key={link.href}
+                href={link.href}
+                label={link.label}
+                isActive={pathname === link.href}
+              />
+            ))}
+          </div>
+
           {/* User section & Mobile Toggle */}
           <div className="flex items-center gap-2">
             {user && mounted && (
@@ -91,7 +131,7 @@ export default function EmpleadoLayout({
             {/* Mobile menu toggle */}
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="flex items-center justify-center h-9 w-9 rounded-lg border border-slate-200 text-slate-600 transition-all hover:bg-slate-50"
+              className="flex sm:hidden items-center justify-center h-9 w-9 rounded-lg border border-slate-200 text-slate-600 transition-all hover:bg-slate-50"
               aria-label="Toggle menu"
             >
               {isMenuOpen ? <X size={18} /> : <Menu size={18} />}
@@ -101,7 +141,7 @@ export default function EmpleadoLayout({
 
         {/* Mobile Navigation Menu */}
         {isMenuOpen && (
-          <div className="absolute top-14 left-0 right-0 border-b border-slate-200  backdrop-blur-xl animate-in slide-in-from-top duration-300 shadow-xl">
+          <div className="sm:hidden absolute top-14 left-0 right-0 border-b border-slate-200  backdrop-blur-xl animate-in slide-in-from-top duration-300 shadow-xl">
             <div className="flex flex-col p-4 gap-1">
               {navLinks.map((link) => {
                 const isActive = pathname === link.href;

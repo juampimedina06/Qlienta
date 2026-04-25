@@ -10,6 +10,7 @@ import { toast } from "react-hot-toast";
 import { createFuturoCliente } from "@/actions/futuros-clientes/create-futuro-cliente";
 import { updateFuturoCliente } from "@/actions/futuros-clientes/update-futuro-cliente";
 import { FuturoCliente, FuturoClienteEstado } from "@/interface/futuro-cliente";
+import { useAuth } from "@/context/AuthContext";
 
 import {
   Dialog,
@@ -54,6 +55,7 @@ const futuroClienteSchema = z
     logo_negocio: z.string().optional(),
     notas_internas: z.string().optional(),
     motivo_rechazo: z.string().optional(),
+    proyecto_desplegado: z.string().optional(),
   })
   .refine(
     (data) =>
@@ -87,6 +89,8 @@ export function FuturoClienteForm({
   onSuccess,
 }: FuturoClienteFormProps) {
   const [loading, setLoading] = useState(false);
+  const { user } = useAuth();
+  const isAdmin = user?.role === "admin";
 
   const {
     register,
@@ -109,6 +113,7 @@ export function FuturoClienteForm({
       logo_negocio: "",
       notas_internas: "",
       motivo_rechazo: "",
+      proyecto_desplegado: "",
     },
   });
 
@@ -130,6 +135,7 @@ export function FuturoClienteForm({
         logo_negocio: futuroCliente.logo_negocio || "",
         notas_internas: futuroCliente.notas_internas || "",
         motivo_rechazo: futuroCliente.motivo_rechazo || "",
+        proyecto_desplegado: futuroCliente.proyecto_desplegado || "",
       });
     } else {
       reset({
@@ -173,6 +179,9 @@ export function FuturoClienteForm({
 
       // Logo
       formData.append("logo_negocio", data.logo_negocio || "");
+
+      // Proyecto desplegado (solo se enviará si tiene valor, la acción verifica el rol)
+      formData.append("proyecto_desplegado", data.proyecto_desplegado || "");
 
       let result;
       if (futuroCliente) {
@@ -412,6 +421,28 @@ export function FuturoClienteForm({
               </div>
             )}
           </section>
+
+          {/* ── Admin Only: Proyecto Desplegado ── */}
+          {isAdmin && (
+            <section className="space-y-4 p-4 rounded-lg border border-primary/20 bg-primary/5">
+              <p className="text-xs font-semibold uppercase tracking-widest text-primary">
+                Configuración Administrador
+              </p>
+              <div className="space-y-2">
+                <Label htmlFor="proyecto_desplegado">Link del Proyecto Desplegado</Label>
+                <Input
+                  id="proyecto_desplegado"
+                  {...register("proyecto_desplegado")}
+                  placeholder="https://proyecto-cliente.vercel.app"
+                  disabled={loading}
+                  className="border-primary/20 bg-white"
+                />
+                <p className="text-[10px] text-muted-foreground">
+                  Solo visible para empleados cuando el link esté cargado.
+                </p>
+              </div>
+            </section>
+          )}
 
           <DialogFooter className="pt-2">
             <div className="flex justify-end gap-3 w-full">

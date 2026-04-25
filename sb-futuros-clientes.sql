@@ -22,6 +22,7 @@ create table futuros_clientes (
   creado_por uuid references profiles(id),  -- empleado que lo cargó
 
   -- timestamps
+  proyecto_desplegado text,                 -- link del proyecto una vez desplegado
   created_at timestamptz default now(),
   updated_at timestamptz default now()
 );

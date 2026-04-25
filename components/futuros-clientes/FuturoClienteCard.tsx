@@ -12,6 +12,7 @@ import {
   Mail,
   Tag,
   Building2,
+  ExternalLink,
 } from "lucide-react";
 import Image from "next/image";
 import { format } from "date-fns";
@@ -145,6 +146,23 @@ export function FuturoClienteCard({
             </div>
 
             <div className="flex items-center gap-0.5 md:gap-1">
+              {futuroCliente.proyecto_desplegado && (
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="h-7 px-2 text-[10px] gap-1 border-emerald-500/30 bg-emerald-500/5 text-emerald-600 hover:bg-emerald-500/10 hover:border-emerald-500/50 transition-all font-bold"
+                  asChild
+                >
+                  <a
+                    href={futuroCliente.proyecto_desplegado}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <ExternalLink size={10} />
+                    <span>PROYECTO</span>
+                  </a>
+                </Button>
+              )}
               <Button
                 variant="ghost"
                 size="icon"
@@ -318,6 +336,23 @@ export function FuturoClienteCard({
                     <div className="p-4 rounded-xl bg-primary/5 border border-primary/10 text-sm leading-relaxed text-muted-foreground/90 whitespace-pre-wrap break-words italic">
                       {futuroCliente.notas_internas}
                     </div>
+                  </div>
+                )}
+
+                {futuroCliente.proyecto_desplegado && (
+                  <div className="space-y-2 p-4 rounded-xl border border-emerald-500/20 bg-emerald-500/5">
+                    <p className="text-[10px] text-emerald-500 uppercase font-black tracking-widest">
+                      Proyecto Desplegado
+                    </p>
+                    <a
+                      href={futuroCliente.proyecto_desplegado}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-sm text-emerald-600 font-bold flex items-center gap-2 hover:underline decoration-2 underline-offset-4"
+                    >
+                      <ExternalLink size={16} />
+                      {futuroCliente.proyecto_desplegado}
+                    </a>
                   </div>
                 )}
 

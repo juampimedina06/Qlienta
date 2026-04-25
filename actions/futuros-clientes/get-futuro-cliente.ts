@@ -9,6 +9,7 @@ interface GetFuturosClientesParams {
   search?: string;
   estado?: string;
   categoria?: string;
+  soloDesplegados?: boolean;
 }
 
 export async function getFuturosClientes({
@@ -17,6 +18,7 @@ export async function getFuturosClientes({
   search,
   estado,
   categoria,
+  soloDesplegados,
 }: GetFuturosClientesParams) {
   try {
     const supabase = await createClient();
@@ -41,6 +43,10 @@ export async function getFuturosClientes({
 
     if (categoria && categoria !== "all") {
       query = query.eq("categoria", categoria);
+    }
+
+    if (soloDesplegados) {
+      query = query.not("proyecto_desplegado", "is", null);
     }
 
     // Paginación y orden

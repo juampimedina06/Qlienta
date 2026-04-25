@@ -3,7 +3,8 @@ import { FuturosClientesList } from "@/components/futuros-clientes/FuturosClient
 
 export const metadata = {
   title: "Gestión de Prospectos | Administrador",
-  description: "Panel de administración de futuros clientes para administradores.",
+  description:
+    "Panel de administración de futuros clientes para administradores.",
 };
 
 export default function AdminFuturosClientesPage() {
