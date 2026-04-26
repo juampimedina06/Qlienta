@@ -13,7 +13,7 @@ import { toast } from "react-hot-toast";
 
 const LIMIT = 10;
 
-export function FuturosClientesList({ soloDesplegados = false }: { soloDesplegados?: boolean }) {
+export function FuturosClientesList({ soloDesplegados = false, basePath = "/admin/futurosClientes" }: { soloDesplegados?: boolean; basePath?: string }) {
   // Estado de los datos
   const [items, setItems] = useState<FuturoCliente[]>([]);
   const [page, setPage] = useState(0);
@@ -155,6 +155,7 @@ export function FuturosClientesList({ soloDesplegados = false }: { soloDesplegad
                 futuroCliente={item}
                 onEdit={handleEdit}
                 onDelete={handleDelete}
+                basePath={basePath}
               />
             ))}
           </div>
