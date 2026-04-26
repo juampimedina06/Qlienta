@@ -18,7 +18,7 @@ export default function DesplegadosPage() {
           para negociar.
         </p>
       </div>
-      <FuturosClientesList soloDesplegados={true} />
+      <FuturosClientesList soloDesplegados={true} basePath="/empleado/desplegados" />
     </main>
   );
 }
