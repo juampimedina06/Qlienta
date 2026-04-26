@@ -33,7 +33,8 @@ interface FuturoClienteDetailProps {
   futuroCliente: FuturoCliente;
   onEdit?: (futuroCliente: FuturoCliente) => void;
   onDelete?: (futuroCliente: FuturoCliente) => void;
-  backUrl: string;
+  backUrl?: string;
+  variant?: "admin" | "empleado";
 }
 
 const estadoConfig = {
@@ -59,6 +60,8 @@ export function FuturoClienteDetail({
   futuroCliente,
   onEdit,
   onDelete,
+  backUrl,
+  variant = "admin",
 }: FuturoClienteDetailProps) {
   const [isLogoOpen, setIsLogoOpen] = useState(false);
   const router = useRouter();
@@ -70,15 +73,19 @@ export function FuturoClienteDetail({
     <div className="max-w-5xl mx-auto space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
       {/* Header con navegación */}
       <div className="flex items-center justify-between gap-4">
-        <Button
-          variant="ghost"
-          size="sm"
-          onClick={() => router.push(`/admin/futurosClientes`)}
-          className="gap-2 text-muted-foreground hover:text-foreground"
-        >
-          <ArrowLeft size={16} />
-          Volver a la lista
-        </Button>
+        {variant === "admin" ? (
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => router.push(backUrl || `/admin/futurosClientes`)}
+            className="gap-2 text-muted-foreground hover:text-foreground"
+          >
+            <ArrowLeft size={16} />
+            Volver a la lista
+          </Button>
+        ) : (
+          <div />
+        )}
 
         <div className="flex items-center gap-2">
           {onEdit && (
