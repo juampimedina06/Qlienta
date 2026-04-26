@@ -17,7 +17,17 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "streetviewpixels-pa.googleapis.com",
         pathname: "/**",
-      }
+      },
+      {
+        protocol: "https",
+        hostname: "st2.depositphotos.com",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "api.microlink.io",
+        pathname: "/**",
+      },
     ],
   },
 };

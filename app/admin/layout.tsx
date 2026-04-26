@@ -67,7 +67,7 @@ export default function AdminLayout({
       <div className="fixed inset-0 -z-10 bg-[radial-gradient(ellipse_at_bottom_left,_rgba(70,130,180,0.05),_transparent_40%)]" />
 
       {/* Header */}
-      <header className="sticky top-0 z-50 border-b border-white/5 ">
+      <header className="sticky top-0 z-50 border-b border-white/5 bg-black/90">
         <nav className="container mx-auto flex h-16 items-center justify-between px-4 lg:px-8">
           {/* Logo area */}
           <Link
