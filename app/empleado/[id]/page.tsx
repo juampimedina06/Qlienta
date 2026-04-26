@@ -2,9 +2,6 @@ import React from "react";
 import { getFuturoClienteById } from "@/actions/futuros-clientes/get-futuro-cliente-by-id";
 import { FuturoClienteDetail } from "@/components/futuros-clientes/FuturoClienteDetail";
 import { notFound } from "next/navigation";
-import Link from "next/link";
-import { ArrowLeft } from "lucide-react";
-import { Button } from "@/components/ui/button";
 
 interface PageProps {
   params: Promise<{ id: string }>;
@@ -24,9 +21,7 @@ export async function generateMetadata({ params }: PageProps) {
   };
 }
 
-export default async function EmpleadoDesplegadoDetailPage({
-  params,
-}: PageProps) {
+export default async function FuturoClienteDetailPage({ params }: PageProps) {
   const { id } = await params;
   const result = await getFuturoClienteById(id);
 
@@ -36,16 +31,6 @@ export default async function EmpleadoDesplegadoDetailPage({
 
   return (
     <main className="container mx-auto py-8 px-4 lg:px-8">
-      {/* Back button */}
-      <div className="mb-6">
-        <Button variant="ghost" asChild className="-ml-3 gap-2">
-          <Link href="/empleado/desplegados">
-            <ArrowLeft size={18} />
-            Volver a Proyectos Desplegados
-          </Link>
-        </Button>
-      </div>
-
       <FuturoClienteDetail futuroCliente={result.data} variant="empleado" />
     </main>
   );

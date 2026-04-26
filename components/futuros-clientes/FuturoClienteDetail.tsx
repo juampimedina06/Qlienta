@@ -60,11 +60,25 @@ export function FuturoClienteDetail({
   futuroCliente,
   onEdit,
   onDelete,
-  backUrl,
-  variant = "admin",
+  variant,
 }: FuturoClienteDetailProps) {
   const [isLogoOpen, setIsLogoOpen] = useState(false);
   const router = useRouter();
+
+  const getFallbackUrl = () => {
+    if (!variant) return "/";
+    if (variant === "admin") return "/admin/futurosClientes";
+    if (variant === "empleado") return "/empleado";
+    return "/";
+  };
+
+  const handleBack = () => {
+    if (window.history.length > 2) {
+      router.back();
+    } else {
+      router.push(getFallbackUrl());
+    }
+  };
 
   const estado =
     estadoConfig[futuroCliente.estado] || estadoConfig["en creacion"];
@@ -73,19 +87,15 @@ export function FuturoClienteDetail({
     <div className="max-w-5xl mx-auto space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
       {/* Header con navegación */}
       <div className="flex items-center justify-between gap-4">
-        {variant === "admin" ? (
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={() => router.push(backUrl || `/admin/futurosClientes`)}
-            className="gap-2 text-muted-foreground hover:text-foreground"
-          >
-            <ArrowLeft size={16} />
-            Volver a la lista
-          </Button>
-        ) : (
-          <div />
-        )}
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={handleBack}
+          className="gap-2 text-muted-foreground hover:text-foreground"
+        >
+          <ArrowLeft size={16} />
+          Volver a la lista
+        </Button>
 
         <div className="flex items-center gap-2">
           {onEdit && (
