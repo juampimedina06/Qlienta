@@ -73,7 +73,7 @@ export default function EmpleadoLayout({
       />
 
       {/* Header - cleaner and brighter */}
-      <header className="sticky top-0 z-50 border-b border-slate-200/50 ">
+      <header className="sticky top-0 z-50 border-b border-slate-200/50 bg-black/90">
         <nav className="container mx-auto flex h-14 items-center justify-between px-4 lg:px-8">
           {/* Logo area */}
           <Link
