@@ -11,6 +11,7 @@ import { useState, useEffect } from "react";
 const navLinks = [
   { href: "/admin/registrarCliente", label: "Dar de Alta Cliente" },
   { href: "/admin/futurosClientes", label: "Futuros Clientes" },
+  { href: "/admin/proyectos", label: "Proyectos" },
   { href: "/admin/clientes", label: "Clientes Activos" },
 ];
 

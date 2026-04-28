@@ -11,13 +11,15 @@ export interface AuthFormProps {
   setTypeSelected: Dispatch<
     SetStateAction<"sign-in" | "recover-password" | "sign-up">
   >;
+  onUserCreated?: (userId: string) => void;
 }
 
 interface AuthModalProps {
   type: "sign-in" | "recover-password" | "sign-up";
+  onUserCreated?: (userId: string) => void;
 }
 
-const AuthForm = ({ type }: AuthModalProps) => {
+const AuthForm = ({ type, onUserCreated }: AuthModalProps) => {
   const [typeSelected, setTypeSelected] = useState<
     "sign-in" | "recover-password" | "sign-up"
   >(type);
@@ -31,7 +33,7 @@ const AuthForm = ({ type }: AuthModalProps) => {
         <SignInForm setTypeSelected={setTypeSelected} />
       )}
       {typeSelected === "sign-up" && (
-        <SignUpForm setTypeSelected={setTypeSelected} />
+        <SignUpForm setTypeSelected={setTypeSelected} onUserCreated={onUserCreated} />
       )}
       {typeSelected === "recover-password" && (
         <RecoverPasswordForm setTypeSelected={setTypeSelected} />

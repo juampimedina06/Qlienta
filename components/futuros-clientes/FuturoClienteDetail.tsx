@@ -14,6 +14,7 @@ import {
   Building2,
   ExternalLink,
   ArrowLeft,
+  UserPlus,
 } from "lucide-react";
 import Image from "next/image";
 import { format } from "date-fns";
@@ -33,6 +34,7 @@ interface FuturoClienteDetailProps {
   futuroCliente: FuturoCliente;
   onEdit?: (futuroCliente: FuturoCliente) => void;
   onDelete?: (futuroCliente: FuturoCliente) => void;
+  onDarAlta?: (futuroCliente: FuturoCliente) => void;
   backUrl?: string;
   variant?: "admin" | "empleado";
 }
@@ -60,6 +62,7 @@ export function FuturoClienteDetail({
   futuroCliente,
   onEdit,
   onDelete,
+  onDarAlta,
   variant,
 }: FuturoClienteDetailProps) {
   const [isLogoOpen, setIsLogoOpen] = useState(false);
@@ -98,6 +101,17 @@ export function FuturoClienteDetail({
         </Button>
 
         <div className="flex items-center gap-2">
+          {onDarAlta && futuroCliente.estado === "aceptado" && (
+            <Button
+              variant="outline"
+              size="sm"
+              className="gap-2 border-emerald-500/30 text-emerald-500 hover:bg-emerald-500/10"
+              onClick={() => onDarAlta(futuroCliente)}
+            >
+              <UserPlus size={14} />
+              Dar de alta cliente
+            </Button>
+          )}
           {onEdit && (
             <Button
               variant="outline"
