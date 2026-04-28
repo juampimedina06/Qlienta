@@ -1,37 +1,71 @@
-import React from "react";
+"use client";
+
+import { useState, useEffect } from "react";
+import { useParams, useRouter } from "next/navigation";
 import { getFuturoClienteById } from "@/actions/futuros-clientes/get-futuro-cliente-by-id";
 import { FuturoClienteDetail } from "@/components/futuros-clientes/FuturoClienteDetail";
-import { notFound } from "next/navigation";
+import { DarAltaFuturoForm } from "@/components/futuros-clientes/DarAltaFuturoForm";
+import { FuturoCliente } from "@/interface/futuro-cliente";
+import { Loader2 } from "lucide-react";
+import { toast } from "react-hot-toast";
 
-interface PageProps {
-  params: Promise<{ id: string }>;
-}
+export default function FuturoClienteDetailPage() {
+  const params = useParams();
+  const router = useRouter();
+  const id = params.id as string;
 
-export async function generateMetadata({ params }: PageProps) {
-  const { id } = await params;
-  const result = await getFuturoClienteById(id);
+  const [futuroCliente, setFuturoCliente] = useState<FuturoCliente | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [isAltaOpen, setIsAltaOpen] = useState(false);
 
-  if (!result.success || !result.data) {
-    return { title: "Prospecto no encontrado" };
-  }
-
-  return {
-    title: `${result.data.nombre_negocio} | Detalles del Prospecto`,
-    description: `Información detallada del prospecto ${result.data.nombre_negocio}`,
+  const fetchData = async () => {
+    try {
+      const result = await getFuturoClienteById(id);
+      if (result.success && result.data) {
+        setFuturoCliente(result.data);
+      } else {
+        toast.error(result.error || "Prospecto no encontrado");
+        router.push("/admin/futurosClientes");
+      }
+    } catch {
+      toast.error("Error inesperado");
+    } finally {
+      setLoading(false);
+    }
   };
-}
 
-export default async function FuturoClienteDetailPage({ params }: PageProps) {
-  const { id } = await params;
-  const result = await getFuturoClienteById(id);
+  useEffect(() => {
+    fetchData();
+  }, [id]);
 
-  if (!result.success || !result.data) {
-    notFound();
+  if (loading) {
+    return (
+      <div className="flex flex-col items-center justify-center py-20 gap-4">
+        <Loader2 className="h-10 w-10 animate-spin text-primary" />
+        <p className="text-muted-foreground animate-pulse">Cargando prospecto...</p>
+      </div>
+    );
   }
+
+  if (!futuroCliente) return null;
 
   return (
     <main className="container mx-auto py-8 px-4 lg:px-8">
-      <FuturoClienteDetail futuroCliente={result.data} variant="admin" />
+      <FuturoClienteDetail
+        futuroCliente={futuroCliente}
+        variant="admin"
+        onDarAlta={() => setIsAltaOpen(true)}
+      />
+
+      <DarAltaFuturoForm
+        isOpen={isAltaOpen}
+        onClose={() => setIsAltaOpen(false)}
+        futuroCliente={futuroCliente}
+        onSuccess={() => {
+          fetchData();
+          router.refresh();
+        }}
+      />
     </main>
   );
 }

@@ -25,7 +25,7 @@ const formSchema = z.object({
 
 type FormData = z.infer<typeof formSchema>;
 
-const SignUpForm = ({ setTypeSelected }: AuthFormProps) => {
+const SignUpForm = ({ setTypeSelected, onUserCreated }: AuthFormProps) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const {
@@ -50,6 +50,10 @@ const SignUpForm = ({ setTypeSelected }: AuthFormProps) => {
             icon: "🎉",
           },
         );
+        // Notify parent with the new user ID
+        if (onUserCreated && res.data?.user?.id) {
+          onUserCreated(res.data.user.id);
+        }
         reset();
         setTypeSelected("sign-in");
       }
