@@ -6,6 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { format } from "date-fns";
 import { es } from "date-fns/locale";
+import Image from "next/image";
 
 export default async function AdminPage() {
   const { data: recentProspects, count: totalProspects } =
@@ -36,7 +37,7 @@ export default async function AdminPage() {
   ];
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-8 w-full ">
       {/* Welcome Section */}
       <div className="flex flex-col gap-2">
         <h1 className="text-3xl font-bold tracking-tight text-white">
@@ -48,9 +49,9 @@ export default async function AdminPage() {
       </div>
 
       {/* Stats Grid */}
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+      <div className="flex w-full justify-between gap-4 md:flex-row flex-col">
         {stats.map((stat) => (
-          <Card key={stat.title} className="border-white/5 ">
+          <Card key={stat.title} className="border-white/5 w-full">
             <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
               <CardTitle className="text-sm font-medium text-white/70">
                 {stat.title}
@@ -67,7 +68,7 @@ export default async function AdminPage() {
       </div>
 
       {/* Main Grid */}
-      <div className="grid gap-8 md:grid-cols-2">
+      <div className="">
         {/* Recent Prospects */}
         <Card className="border-white/5 bg-white/5 backdrop-blur-sm">
           <CardHeader className="flex flex-row items-center justify-between">
@@ -93,7 +94,9 @@ export default async function AdminPage() {
                     <div className="flex items-center gap-3">
                       <div className="h-10 w-10 rounded-full bg-indigo-500/10 flex items-center justify-center border border-indigo-500/20">
                         {prospect.logo_negocio ? (
-                          <img
+                          <Image
+                            width={40}
+                            height={40}
                             src={prospect.logo_negocio}
                             alt={prospect.nombre_negocio}
                             className="h-full w-full rounded-full object-cover"
@@ -132,39 +135,6 @@ export default async function AdminPage() {
                 </div>
               )}
             </div>
-          </CardContent>
-        </Card>
-
-        {/* Quick Actions or Other Info */}
-        <Card className="border-white/5 bg-white/5 backdrop-blur-sm">
-          <CardHeader>
-            <CardTitle className="text-xl font-semibold text-white">
-              Acciones Rápidas
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="grid grid-cols-2 gap-4">
-            <Link
-              href="/admin/registrarCliente"
-              className="flex flex-col items-center justify-center p-4 rounded-2xl border border-white/5 bg-white/5 hover:bg-white/10 transition-all gap-2 text-center"
-            >
-              <div className="h-10 w-10 rounded-full bg-emerald-500/10 flex items-center justify-center border border-emerald-500/20 text-emerald-500">
-                <UserPlus size={20} />
-              </div>
-              <span className="text-sm font-medium text-white">
-                Nuevo Cliente
-              </span>
-            </Link>
-            <Link
-              href="/admin/clientes"
-              className="flex flex-col items-center justify-center p-4 rounded-2xl border border-white/5 bg-white/5 hover:bg-white/10 transition-all gap-2 text-center"
-            >
-              <div className="h-10 w-10 rounded-full bg-blue-500/10 flex items-center justify-center border border-blue-500/20 text-blue-500">
-                <Users size={20} />
-              </div>
-              <span className="text-sm font-medium text-white">
-                Listar Clientes
-              </span>
-            </Link>
           </CardContent>
         </Card>
       </div>
