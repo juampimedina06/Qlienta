@@ -3,20 +3,17 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import { Proyecto } from "@/interface/proyecto";
 import { getProyectos } from "@/actions/proyectos/get-proyectos";
-import { deleteProyecto } from "@/actions/proyectos/delete-proyecto";
 import { ClientCard } from "@/components/clientes/ClienteCard";
 import { ClientFilter } from "@/components/clientes/ClienteFilter";
 import { ProyectoForm } from "@/components/proyectos/ProyectoForm";
+import { ConfirmDeleteProyectoModal } from "@/components/proyectos/ConfirmDeleteProyectoModal";
 import { Button } from "@/components/ui/button";
 import { Plus, Loader2, SearchX } from "lucide-react";
 import { toast } from "react-hot-toast";
-import { useRouter } from "next/navigation";
 
 const LIMIT = 12;
 
 export function ProyectosList() {
-  const router = useRouter();
-
   // Estado de los datos
   const [items, setItems] = useState<Proyecto[]>([]);
   const [page, setPage] = useState(0);
@@ -33,7 +30,8 @@ export function ProyectosList() {
 
   // Estado del modal
   const [isFormOpen, setIsFormOpen] = useState(false);
-  const [editingItem, setEditingItem] = useState<Proyecto | null>(null);
+  const [isDeleteOpen, setIsDeleteOpen] = useState(false);
+  const [selectedProyecto, setSelectedProyecto] = useState<Proyecto | null>(null);
 
   // Ref para el observador de scroll infinito
   const observerTarget = useRef<HTMLDivElement>(null);
@@ -99,23 +97,18 @@ export function ProyectosList() {
   }, [hasMore, loading, initialLoading, page, filters, fetchItems]);
 
   const handleEdit = (proyecto: Proyecto) => {
-    setEditingItem(proyecto);
+    setSelectedProyecto(proyecto);
     setIsFormOpen(true);
   };
 
-  const handleDelete = async (proyecto: Proyecto) => {
-    if (!confirm(`¿Estás seguro de eliminar el proyecto "${proyecto.nombre_proyecto}"?`)) return;
+  const handleDelete = (proyecto: Proyecto) => {
+    setSelectedProyecto(proyecto);
+    setIsDeleteOpen(true);
+  };
 
-    try {
-      const result = await deleteProyecto(proyecto.id);
-      if (result.success) {
-        toast.success("Proyecto eliminado");
-        setItems((prev) => prev.filter((i) => i.id !== proyecto.id));
-      } else {
-        toast.error(result.error || "Error al eliminar");
-      }
-    } catch {
-      toast.error("Error inesperado");
+  const handleDeleteSuccess = () => {
+    if (selectedProyecto) {
+      setItems((prev) => prev.filter((i) => i.id !== selectedProyecto.id));
     }
   };
 
@@ -135,7 +128,7 @@ export function ProyectosList() {
         </div>
         <Button
           onClick={() => {
-            setEditingItem(null);
+            setSelectedProyecto(null);
             setIsFormOpen(true);
           }}
           className="gap-2"
@@ -206,8 +199,15 @@ export function ProyectosList() {
       <ProyectoForm
         isOpen={isFormOpen}
         onClose={() => setIsFormOpen(false)}
-        proyecto={editingItem}
+        proyecto={selectedProyecto}
         onSuccess={handleCreateSuccess}
+      />
+
+      <ConfirmDeleteProyectoModal
+        isOpen={isDeleteOpen}
+        onClose={() => setIsDeleteOpen(false)}
+        proyecto={selectedProyecto}
+        onSuccess={handleDeleteSuccess}
       />
     </div>
   );

@@ -20,7 +20,8 @@ import React, { useState, useCallback } from "react";
 
 export default function RegistrarCliente() {
   const [isCliente, setIsCliente] = useState(false);
-  const [proyectoData, setProyectoData] = useState<ProyectoInlineData>(defaultProyectoData);
+  const [proyectoData, setProyectoData] =
+    useState<ProyectoInlineData>(defaultProyectoData);
 
   const handleSelectChange = (value: string) => {
     setIsCliente(value === "Cliente");
@@ -32,7 +33,9 @@ export default function RegistrarCliente() {
 
       // Validar que el nombre del proyecto esté presente
       if (!proyectoData.nombre_proyecto.trim()) {
-        toast.error("Completá el nombre del proyecto antes de registrar al cliente");
+        toast.error(
+          "Completá el nombre del proyecto antes de registrar al cliente",
+        );
         return;
       }
 
