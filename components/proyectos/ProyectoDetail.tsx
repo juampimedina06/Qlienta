@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { Proyecto } from "@/interface/proyecto";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -20,6 +21,9 @@ import {
   UserPlus,
   FileText,
   StickyNote,
+  Key,
+  Eye,
+  EyeOff,
 } from "lucide-react";
 import Link from "next/link";
 
@@ -65,6 +69,7 @@ export function ProyectoDetail({ proyecto, variant = "admin", onDarAlta }: Proye
   const estado = estadoConfig[proyecto.estado_pagina] || estadoConfig["en desarrollo"];
   const pagoAlerta = getPagoAlerta(proyecto.fecha_proximo_pago);
   const isAdmin = variant === "admin";
+  const [showCredentials, setShowCredentials] = useState(false);
   const canDarAlta = isAdmin && !proyecto.cliente_id;
 
   return (
@@ -230,19 +235,35 @@ export function ProyectoDetail({ proyecto, variant = "admin", onDarAlta }: Proye
         </div>
       </div>
 
-      {/* Tecnologías */}
+      {/* Credenciales */}
       {proyecto.tecnologias && proyecto.tecnologias.length > 0 && (
         <div className="space-y-3">
-          <p className="text-[10px] text-muted-foreground uppercase font-black tracking-widest flex items-center gap-2">
-            <Code2 size={14} /> Tecnologías
-          </p>
+          <div className="flex items-center justify-between">
+            <p className="text-[10px] text-muted-foreground uppercase font-black tracking-widest flex items-center gap-2">
+              <Key size={14} /> Credenciales
+            </p>
+            <button
+              onClick={() => setShowCredentials(!showCredentials)}
+              className="text-[10px] flex items-center gap-1 text-muted-foreground hover:text-primary transition-colors font-bold uppercase"
+            >
+              {showCredentials ? (
+                <>
+                  <EyeOff size={12} /> Ocultar
+                </>
+              ) : (
+                <>
+                  <Eye size={12} /> Mostrar
+                </>
+              )}
+            </button>
+          </div>
           <div className="flex flex-wrap gap-2">
             {proyecto.tecnologias.map((tech) => (
               <span
                 key={tech}
                 className="flex items-center gap-1.5 text-xs font-bold px-3 py-1.5 rounded-full bg-primary/10 text-primary border border-primary/20"
               >
-                <Code2 size={12} /> {tech}
+                <Key size={12} /> {showCredentials ? tech : "••••••••"}
               </span>
             ))}
           </div>

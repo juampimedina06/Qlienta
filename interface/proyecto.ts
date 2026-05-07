@@ -16,7 +16,7 @@ export interface Proyecto {
   pago_mensual: number | null;
   fecha_proximo_pago: string | null;
   pagado: boolean;
-  tecnologias: string[] | null;
+  tecnologias: string[] | null; // Usado para almacenar Credenciales en el front
   fecha_entrega: string | null;
   notas: string | null;
   futuro_cliente_id: string | null;
