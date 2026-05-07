@@ -2,6 +2,7 @@
 
 
 import { createClient } from "@/lib/supabase/server"
+import { createAdminClient } from "@/lib/supabase/admin"
 
 //el admin puede hacerlo y tiene q ser de los clientes, sacar esto 
 export async function signup(formData: {name: string, email: string, password: string}) {
@@ -19,13 +20,13 @@ export async function signup(formData: {name: string, email: string, password: s
     throw new Error('No autorizado')
   }
 
-  const { error, data } = await supabase.auth.signUp({
+  const adminClient = createAdminClient()
+  const { error, data } = await adminClient.auth.admin.createUser({
     email: formData.email,
     password: formData.password,
-    options: {
-        data: {
-            name: formData.name,
-        }
+    email_confirm: true,
+    user_metadata: {
+      name: formData.name,
     }
   })
 
@@ -35,6 +36,7 @@ export async function signup(formData: {name: string, email: string, password: s
         error: error.message
      }
   }
+
 
   return { 
     success: true,

@@ -25,26 +25,25 @@ interface ClienteActivoCardProps {
   onDelete: (cliente: User) => void;
 }
 
-export function ClienteActivoCard({ cliente, onEdit, onDelete }: ClienteActivoCardProps) {
+export function ClienteActivoCard({
+  cliente,
+  onEdit,
+  onDelete,
+}: ClienteActivoCardProps) {
   return (
     <Card className="group overflow-hidden border-none shadow-sm hover:shadow-xl transition-all duration-500 bg-card/50 backdrop-blur-sm flex flex-col h-full ring-1 ring-border/50 hover:ring-primary/20">
       <div className="flex flex-col flex-1 min-w-0">
         <CardHeader className="space-y-3">
           {/* Avatar + Name */}
-          <div className="flex items-center gap-3">
+          <div className="flex items-center justify-between gap-3 ">
             <AvatarBadge
               name={cliente.name || "Cliente"}
               avatar_url={getImagenUrl(cliente.avatar_url || "")}
               className="h-11 w-11"
             />
-            <div className="min-w-0 flex-1">
-              <CardTitle className="text-sm md:text-base font-bold line-clamp-1 group-hover:text-primary transition-colors">
-                {cliente.name || "Sin nombre"}
-              </CardTitle>
-              <Badge className="px-1.5 py-0 text-[9px] uppercase font-bold bg-emerald-500/10 text-emerald-500 border-emerald-500/20 mt-1">
-                Cliente
-              </Badge>
-            </div>
+            <Badge className="px-1.5 py-0 text-[9px] uppercase font-bold bg-emerald-500/10 text-emerald-500 border-emerald-500/20 mt-1">
+              Cliente
+            </Badge>
           </div>
 
           {/* Contact info */}
@@ -71,7 +70,9 @@ export function ClienteActivoCard({ cliente, onEdit, onDelete }: ClienteActivoCa
           <div className="flex items-center text-[10px] text-muted-foreground font-medium truncate">
             <Calendar size={12} className="mr-1 opacity-70 shrink-0" />
             {cliente.created_at
-              ? format(new Date(cliente.created_at), "d MMM yyyy", { locale: es })
+              ? format(new Date(cliente.created_at), "d MMM yyyy", {
+                  locale: es,
+                })
               : "—"}
           </div>
 

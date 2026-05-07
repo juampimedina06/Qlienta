@@ -1,6 +1,7 @@
 "use server";
 
 import { createClient } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/admin";
 import { revalidatePath } from "next/cache";
 
 interface DarAltaFuturoClienteData {
@@ -40,12 +41,14 @@ export async function darAltaFuturoCliente(data: DarAltaFuturoClienteData) {
       return { success: false, error: "Futuro cliente no encontrado" };
     }
 
-    if (futuroCliente.estado !== "aceptado") {
-      return { success: false, error: "El futuro cliente debe estar en estado 'aceptado'" };
+    if (futuroCliente.estado !== "aceptado" && futuroCliente.estado !== "creado") {
+      return { success: false, error: "El futuro cliente debe estar en estado 'creado' o 'aceptado'" };
     }
 
-    // Crear el usuario en Supabase Auth
-    const { error: signUpError, data: signUpData } = await supabase.auth.admin.createUser({
+
+    // Usar el cliente admin para crear el usuario en Supabase Auth
+    const adminClient = createAdminClient();
+    const { error: signUpError, data: signUpData } = await adminClient.auth.admin.createUser({
       email: futuroCliente.email_contacto,
       password: data.password,
       email_confirm: true,
@@ -60,8 +63,9 @@ export async function darAltaFuturoCliente(data: DarAltaFuturoClienteData) {
 
     const newUserId = signUpData.user.id;
 
-    // Asignar rol de cliente
-    const { error: roleError } = await supabase
+
+    // Asignar rol de cliente (usamos admin para saltar RLS)
+    const { error: roleError } = await adminClient
       .from("profiles")
       .update({ role: "cliente" })
       .eq("id", newUserId);
@@ -69,6 +73,7 @@ export async function darAltaFuturoCliente(data: DarAltaFuturoClienteData) {
     if (roleError) {
       console.error("Error updating role:", roleError);
     }
+
 
     // Crear el proyecto vinculado
     const nombreProyecto = data.nombre_proyecto || `Proyecto ${futuroCliente.nombre_negocio}`;

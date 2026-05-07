@@ -12,6 +12,8 @@ import {
   AlertTriangle,
   CheckCircle2,
   Clock,
+  Key,
+  EyeOff,
 } from "lucide-react";
 import { format, isPast, isWithinInterval, addDays } from "date-fns";
 import { es } from "date-fns/locale";
@@ -65,6 +67,7 @@ function getPagoAlerta(fecha: string | null) {
 
 export function ClientCard({ proyecto, onEdit, onDelete }: ClientCardProps) {
   const [isDetailsOpen, setIsDetailsOpen] = useState(false);
+  const [showCredentials, setShowCredentials] = useState(false);
 
   const estado =
     estadoConfig[proyecto.estado_pagina] || estadoConfig["en desarrollo"];
@@ -326,19 +329,35 @@ export function ClientCard({ proyecto, onEdit, onDelete }: ClientCardProps) {
               </div>
             </div>
 
-            {/* Tecnologías */}
+            {/* Credenciales */}
             {proyecto.tecnologias && proyecto.tecnologias.length > 0 && (
               <div className="space-y-2">
-                <p className="text-[10px] text-muted-foreground uppercase font-black tracking-widest">
-                  Tecnologías
-                </p>
+                <div className="flex items-center justify-between">
+                  <p className="text-[10px] text-muted-foreground uppercase font-black tracking-widest">
+                    Credenciales
+                  </p>
+                  <button
+                    onClick={() => setShowCredentials(!showCredentials)}
+                    className="text-[10px] flex items-center gap-1 text-muted-foreground hover:text-primary transition-colors font-bold uppercase"
+                  >
+                    {showCredentials ? (
+                      <>
+                        <EyeOff size={11} /> Ocultar
+                      </>
+                    ) : (
+                      <>
+                        <Eye size={11} /> Mostrar
+                      </>
+                    )}
+                  </button>
+                </div>
                 <div className="flex flex-wrap gap-2">
                   {proyecto.tecnologias.map((tech) => (
                     <span
                       key={tech}
                       className="flex items-center gap-1 text-xs font-bold px-2.5 py-1 rounded-full bg-primary/10 text-primary border border-primary/20"
                     >
-                      <Code2 size={11} /> {tech}
+                      <Key size={11} /> {showCredentials ? tech : "••••••••"}
                     </span>
                   ))}
                 </div>

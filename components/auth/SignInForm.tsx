@@ -8,7 +8,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { useState } from "react";
-import { LoaderCircle } from "lucide-react";
+import { LoaderCircle, Eye, EyeOff } from "lucide-react";
 import toast from "react-hot-toast";
 import { AuthFormProps } from "./AuthForm";
 import { login } from "@/actions/auth/auth";
@@ -22,6 +22,7 @@ type FormData = z.infer<typeof formSchema>;
 
 const SignInForm = ({ setTypeSelected }: AuthFormProps) => {
   const [isLoading, setIsLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const {
     register,
@@ -88,12 +89,22 @@ const SignInForm = ({ setTypeSelected }: AuthFormProps) => {
         {/* Password */}
         <div>
           <label className="text-sm">Contraseña</label>
-          <Input
-            type="password"
-            placeholder="*****"
-            disabled={isLoading}
-            {...register("password")}
-          />
+          <div className="relative">
+            <Input
+              type={showPassword ? "text" : "password"}
+              placeholder="*****"
+              disabled={isLoading}
+              className="pr-10"
+              {...register("password")}
+            />
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+            >
+              {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+            </button>
+          </div>
           {errors.password && (
             <p className="text-red-500 text-xs mt-1">
               {errors.password.message}

@@ -15,12 +15,15 @@ import {
   Calendar,
   FolderOpen,
   Loader2,
+  Plus,
 } from "lucide-react";
 import { format } from "date-fns";
 import { es } from "date-fns/locale";
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { getProyectos } from "@/actions/proyectos/get-proyectos";
+import { ProyectoForm } from "@/components/proyectos/ProyectoForm";
+import { ConfirmDeleteProyectoModal } from "@/components/proyectos/ConfirmDeleteProyectoModal";
 
 interface ClienteDetailViewProps {
   cliente: User;
@@ -31,30 +34,49 @@ export function ClienteDetailView({ cliente, onEdit }: ClienteDetailViewProps) {
   const [proyectos, setProyectos] = useState<Proyecto[]>([]);
   const [loadingProyectos, setLoadingProyectos] = useState(true);
 
-  useEffect(() => {
-    async function fetchProyectos() {
-      try {
-        // Buscar proyectos de este cliente usando el filtro de search con el ID
-        const result = await getProyectos({
-          page: 0,
-          limit: 50,
-        });
+  // Estados para modales de proyecto
+  const [isEditProjectOpen, setIsEditProjectOpen] = useState(false);
+  const [isDeleteProjectOpen, setIsDeleteProjectOpen] = useState(false);
+  const [selectedProyecto, setSelectedProyecto] = useState<Proyecto | null>(
+    null,
+  );
 
-        if (result.success && result.data) {
-          // Filtrar por cliente_id en el front
-          const clienteProyectos = result.data.filter(
-            (p) => p.cliente_id === cliente.id,
-          );
-          setProyectos(clienteProyectos);
-        }
-      } catch {
-        // silencioso
-      } finally {
-        setLoadingProyectos(false);
+  const fetchProyectos = async () => {
+    setLoadingProyectos(true);
+    try {
+      // Buscar proyectos de este cliente usando el filtro de search con el ID
+      const result = await getProyectos({
+        page: 0,
+        limit: 50,
+      });
+
+      if (result.success && result.data) {
+        // Filtrar por cliente_id en el front
+        const clienteProyectos = result.data.filter(
+          (p) => p.cliente_id === cliente.id,
+        );
+        setProyectos(clienteProyectos);
       }
+    } catch {
+      // silencioso
+    } finally {
+      setLoadingProyectos(false);
     }
+  };
+
+  useEffect(() => {
     fetchProyectos();
   }, [cliente.id]);
+
+  const handleEditProject = (proyecto: Proyecto) => {
+    setSelectedProyecto(proyecto);
+    setIsEditProjectOpen(true);
+  };
+
+  const handleDeleteProject = (proyecto: Proyecto) => {
+    setSelectedProyecto(proyecto);
+    setIsDeleteProjectOpen(true);
+  };
 
   return (
     <div className="max-w-5xl mx-auto space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
@@ -72,9 +94,14 @@ export function ClienteDetailView({ cliente, onEdit }: ClienteDetailViewProps) {
         </Link>
 
         {onEdit && (
-          <Button variant="outline" size="sm" className="gap-2" onClick={onEdit}>
+          <Button
+            variant="outline"
+            size="sm"
+            className="gap-2"
+            onClick={onEdit}
+          >
             <Edit size={14} />
-            Editar
+            Editar Cliente
           </Button>
         )}
       </div>
@@ -103,7 +130,9 @@ export function ClienteDetailView({ cliente, onEdit }: ClienteDetailViewProps) {
               <Mail size={18} />
             </div>
             <div>
-              <p className="text-[10px] text-muted-foreground font-bold uppercase">Email</p>
+              <p className="text-[10px] text-muted-foreground font-bold uppercase">
+                Email
+              </p>
               <p className="text-sm font-medium">{cliente.email || "—"}</p>
             </div>
           </div>
@@ -112,7 +141,9 @@ export function ClienteDetailView({ cliente, onEdit }: ClienteDetailViewProps) {
               <Phone size={18} />
             </div>
             <div>
-              <p className="text-[10px] text-muted-foreground font-bold uppercase">Teléfono</p>
+              <p className="text-[10px] text-muted-foreground font-bold uppercase">
+                Teléfono
+              </p>
               <p className="text-sm font-medium">
                 {cliente.phone
                   ? `${cliente.country_code || ""} ${cliente.phone}`
@@ -125,7 +156,9 @@ export function ClienteDetailView({ cliente, onEdit }: ClienteDetailViewProps) {
               <Calendar size={18} />
             </div>
             <div>
-              <p className="text-[10px] text-muted-foreground font-bold uppercase">Miembro desde</p>
+              <p className="text-[10px] text-muted-foreground font-bold uppercase">
+                Miembro desde
+              </p>
               <p className="text-sm font-medium">
                 {cliente.created_at
                   ? format(new Date(cliente.created_at), "d 'de' MMMM, yyyy", {
@@ -140,15 +173,30 @@ export function ClienteDetailView({ cliente, onEdit }: ClienteDetailViewProps) {
 
       {/* Proyectos del cliente */}
       <div className="space-y-4">
-        <h2 className="text-lg font-bold flex items-center gap-2">
-          <FolderOpen size={20} className="text-primary" />
-          Proyectos del cliente
-        </h2>
+        <div className="flex items-center justify-between">
+          <h2 className="text-lg font-bold flex items-center gap-2">
+            <FolderOpen size={20} className="text-primary" />
+            Proyectos del cliente
+          </h2>
+          <Button
+            size="sm"
+            className="gap-2"
+            onClick={() => {
+              setSelectedProyecto(null);
+              setIsEditProjectOpen(true);
+            }}
+          >
+            <Plus size={14} />
+            Nuevo Proyecto
+          </Button>
+        </div>
 
         {loadingProyectos ? (
           <div className="flex items-center justify-center py-10 gap-3">
             <Loader2 className="h-6 w-6 animate-spin text-primary" />
-            <span className="text-muted-foreground text-sm">Cargando proyectos...</span>
+            <span className="text-muted-foreground text-sm">
+              Cargando proyectos...
+            </span>
           </div>
         ) : proyectos.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -156,20 +204,39 @@ export function ClienteDetailView({ cliente, onEdit }: ClienteDetailViewProps) {
               <ClientCard
                 key={p.id}
                 proyecto={p}
-                onEdit={() => {}}
-                onDelete={() => {}}
+                onEdit={handleEditProject}
+                onDelete={handleDeleteProject}
               />
             ))}
           </div>
         ) : (
           <div className="p-8 rounded-2xl border-2 border-dashed border-border/50 bg-muted/20 text-center">
-            <FolderOpen size={32} className="mx-auto text-muted-foreground/50 mb-3" />
+            <FolderOpen
+              size={32}
+              className="mx-auto text-muted-foreground/50 mb-3"
+            />
             <p className="text-sm text-muted-foreground">
               Este cliente no tiene proyectos asignados.
             </p>
           </div>
         )}
       </div>
+
+      {/* Modales de Proyecto */}
+      <ProyectoForm
+        isOpen={isEditProjectOpen}
+        onClose={() => setIsEditProjectOpen(false)}
+        proyecto={selectedProyecto}
+        onSuccess={fetchProyectos}
+        defaultClienteId={cliente.id}
+      />
+
+      <ConfirmDeleteProyectoModal
+        isOpen={isDeleteProjectOpen}
+        onClose={() => setIsDeleteProjectOpen(false)}
+        proyecto={selectedProyecto}
+        onSuccess={fetchProyectos}
+      />
     </div>
   );
 }
