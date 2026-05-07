@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
-import { Plus, X } from "lucide-react";
+import { Plus, X, Eye, EyeOff } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export interface ProyectoInlineData {
@@ -59,6 +59,7 @@ export const defaultProyectoData: ProyectoInlineData = {
 
 export function ProyectoFormInline({ data, onChange }: ProyectoFormInlineProps) {
   const [techInput, setTechInput] = useState("");
+  const [showCredentials, setShowCredentials] = useState(false);
 
   const update = (field: keyof ProyectoInlineData, value: unknown) => {
     onChange({ ...data, [field]: value });
@@ -175,14 +176,33 @@ export function ProyectoFormInline({ data, onChange }: ProyectoFormInlineProps) 
         </div>
       </div>
 
-      {/* Tecnologías */}
+      {/* Credenciales */}
       <div className="space-y-2">
-        <Label>Tecnologías</Label>
+        <div className="flex items-center justify-between">
+          <Label>Credenciales</Label>
+          <button
+            type="button"
+            onClick={() => setShowCredentials(!showCredentials)}
+            className="text-[10px] flex items-center gap-1 text-muted-foreground hover:text-primary transition-colors font-bold uppercase"
+          >
+            {showCredentials ? (
+              <>
+                <EyeOff size={12} /> Ocultar
+              </>
+            ) : (
+              <>
+                <Eye size={12} /> Mostrar
+              </>
+            )}
+          </button>
+        </div>
         <div className="flex gap-2">
           <Input
+            type={showCredentials ? "text" : "password"}
             value={techInput}
             onChange={(e) => setTechInput(e.target.value)}
-            placeholder="Ej: Next.js"
+            placeholder="Ej: Host: 1.2.3.4, User: admin, Pass: ..."
+            className="transition-all"
             onKeyDown={(e) => {
               if (e.key === "Enter") {
                 e.preventDefault();
@@ -201,7 +221,7 @@ export function ProyectoFormInline({ data, onChange }: ProyectoFormInlineProps) 
                 key={tech}
                 className="flex items-center gap-1 text-xs font-bold px-2.5 py-1 rounded-full bg-primary/10 text-primary border border-primary/20"
               >
-                {tech}
+                {showCredentials ? tech : "••••••••"}
                 <button
                   type="button"
                   onClick={() => removeTech(tech)}
