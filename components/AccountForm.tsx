@@ -160,7 +160,7 @@ export default function AccountForm({
               {avatarUrl ? (
                 <Image
                   className="object-cover w-full h-full"
-                  src={getImagenUrl(avatarUrl)}
+                  src={getImagenUrl(avatarUrl) || ""}
                   width={100}
                   height={100}
                   alt="user-img"

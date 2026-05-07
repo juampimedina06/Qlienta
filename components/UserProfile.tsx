@@ -118,7 +118,9 @@ const UserProfile: React.FC<UserProfileProps> = ({
 
   return (
     <>
-      <div className={`w-full max-w-md ${className} glass-card rounded-[2.5rem] p-8 sm:p-10 shadow-2xl shadow-blue-500/5`}>
+      <div
+        className={`w-full max-w-md ${className} glass-card rounded-[2.5rem] p-8 sm:p-10 shadow-2xl shadow-blue-500/5`}
+      >
         <div className="space-y-8">
           {/* Información del usuario */}
           <div className="flex flex-col items-center text-center">
@@ -127,7 +129,7 @@ const UserProfile: React.FC<UserProfileProps> = ({
               <Avatar className="h-32 w-32 border-4 border-white shadow-2xl">
                 {profile.avatar_url ? (
                   <Image
-                    src={getImagenUrl(profile.avatar_url)}
+                    src={getImagenUrl(profile.avatar_url) || ""}
                     alt={profile.name || "Usuario"}
                     className="object-cover rounded-full"
                     width={1000}
@@ -164,11 +166,11 @@ const UserProfile: React.FC<UserProfileProps> = ({
           {/* Acciones del perfil */}
           <div className="space-y-4">
             <div className="flex items-center gap-3 px-1">
-               <span className="h-[1px] flex-1 bg-stone-100" />
-               <h4 className="text-[10px] font-black text-stone-400 uppercase tracking-[0.3em]">
-                 Gestión de Cuenta
-               </h4>
-               <span className="h-[1px] flex-1 bg-stone-100" />
+              <span className="h-[1px] flex-1 bg-stone-100" />
+              <h4 className="text-[10px] font-black text-stone-400 uppercase tracking-[0.3em]">
+                Gestión de Cuenta
+              </h4>
+              <span className="h-[1px] flex-1 bg-stone-100" />
             </div>
 
             <div className="grid gap-3">
@@ -180,21 +182,33 @@ const UserProfile: React.FC<UserProfileProps> = ({
                   <Edit size={20} />
                 </div>
                 <div className="flex-1 text-left">
-                  <div className="text-sm font-black text-stone-900">Editar Perfil</div>
-                  <div className="text-[10px] font-bold text-stone-400 uppercase tracking-tight">Nombre y Avatar</div>
+                  <div className="text-sm font-black text-stone-900">
+                    Editar Perfil
+                  </div>
+                  <div className="text-[10px] font-bold text-stone-400 uppercase tracking-tight">
+                    Nombre y Avatar
+                  </div>
                 </div>
               </button>
 
-              <Link href="/update-password" intermediate-link="true" className="group flex w-full items-center gap-4 rounded-2xl bg-white p-4 ring-1 ring-stone-100 transition-all hover:ring-purple-200 hover:shadow-lg hover:shadow-purple-500/5 active:scale-[0.98]">
+              <Link
+                href="/update-password"
+                intermediate-link="true"
+                className="group flex w-full items-center gap-4 rounded-2xl bg-white p-4 ring-1 ring-stone-100 transition-all hover:ring-purple-200 hover:shadow-lg hover:shadow-purple-500/5 active:scale-[0.98]"
+              >
                 <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-purple-50 text-purple-600 transition-colors group-hover:bg-purple-600 group-hover:text-white">
                   <Key size={20} />
                 </div>
                 <div className="flex-1 text-left">
-                  <div className="text-sm font-black text-stone-900">Seguridad</div>
-                  <div className="text-[10px] font-bold text-stone-400 uppercase tracking-tight">Cambiar Contraseña</div>
+                  <div className="text-sm font-black text-stone-900">
+                    Seguridad
+                  </div>
+                  <div className="text-[10px] font-bold text-stone-400 uppercase tracking-tight">
+                    Cambiar Contraseña
+                  </div>
                 </div>
               </Link>
-              
+
               <form action="/api/auth/signout" method="post">
                 <button
                   className="group flex w-full items-center gap-4 rounded-2xl bg-rose-50/30 p-4 ring-1 ring-rose-100 transition-all hover:bg-rose-50 hover:ring-rose-200 active:scale-[0.98]"
@@ -204,8 +218,12 @@ const UserProfile: React.FC<UserProfileProps> = ({
                     <LogOut size={20} />
                   </div>
                   <div className="flex-1 text-left">
-                    <div className="text-sm font-black text-stone-900">Cerrar Sesión</div>
-                    <div className="text-[10px] font-bold text-stone-400 uppercase tracking-tight">Salir de la cuenta</div>
+                    <div className="text-sm font-black text-stone-900">
+                      Cerrar Sesión
+                    </div>
+                    <div className="text-[10px] font-bold text-stone-400 uppercase tracking-tight">
+                      Salir de la cuenta
+                    </div>
                   </div>
                 </button>
               </form>
