@@ -12,6 +12,7 @@ import { LoaderCircle, Eye, EyeOff } from "lucide-react";
 import toast from "react-hot-toast";
 import { AuthFormProps } from "./AuthForm";
 import { login } from "@/actions/auth/auth";
+import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
   email: z.string().email("Correo inválido"),
@@ -23,6 +24,8 @@ type FormData = z.infer<typeof formSchema>;
 const SignInForm = ({ setTypeSelected }: AuthFormProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+
+  const router = useRouter();
 
   const {
     register,
@@ -42,11 +45,11 @@ const SignInForm = ({ setTypeSelected }: AuthFormProps) => {
 
         const role = res.data?.role;
         if (role === "admin") {
-          window.location.href = "/admin";
+          router.push("/admin");
         } else if (role === "empleado") {
-          window.location.href = "/empleado";
+          router.push("/empleado");
         } else if (role === "cliente") {
-          window.location.href = "/cliente";
+          router.push("/cliente");
         } else {
           toast.error(res.error || "Error al iniciar sesión");
         }
