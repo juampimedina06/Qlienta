@@ -1,6 +1,7 @@
 "use server";
 
 import { createClient } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/admin";
 import { revalidatePath } from "next/cache";
 
 interface UpdateClienteData {
@@ -31,8 +32,10 @@ export async function updateCliente(clienteData: UpdateClienteData) {
     }
 
     const { id, ...updateFields } = clienteData;
+    const adminClient = createAdminClient();
 
-    const { data, error } = await supabase
+    // 1. Actualizar el perfil en la tabla 'profiles' (usamos admin para saltar RLS)
+    const { data, error } = await adminClient
       .from("profiles")
       .update(updateFields)
       .eq("id", id)
@@ -40,14 +43,31 @@ export async function updateCliente(clienteData: UpdateClienteData) {
       .single();
 
     if (error) {
-      console.error("Error updating cliente:", error);
+      console.error("Error updating profile:", error);
       return { success: false, error: error.message };
+    }
+
+    // 2. Si se cambió el nombre, sincronizar con la metadata de Auth
+    if (updateFields.name) {
+      const { error: authError } = await adminClient.auth.admin.updateUserById(id, {
+        user_metadata: { name: updateFields.name },
+      });
+
+      if (authError) {
+        console.error("Error updating auth metadata:", authError);
+        // No fallamos toda la operación si esto falla, pero lo logueamos
+      }
     }
 
     revalidatePath("/admin/clientes");
     return { success: true, data };
-  } catch (error) {
+  } catch (error: any) {
     console.error("Unexpected error in updateCliente:", error);
-    return { success: false, error: "Error inesperado al actualizar el cliente" };
+    return { 
+      success: false, 
+      error: error.message === "Supabase Admin environment variables are missing" 
+        ? "Configuración faltante: SUPABASE_SERVICE_ROLE_KEY"
+        : "Error inesperado al editar el cliente" 
+    };
   }
 }

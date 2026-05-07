@@ -101,7 +101,7 @@ export function FuturoClienteDetail({
         </Button>
 
         <div className="flex items-center gap-2">
-          {onDarAlta && futuroCliente.estado === "aceptado" && (
+          {onDarAlta && (futuroCliente.estado === "aceptado" || futuroCliente.estado === "creado") && (
             <Button
               variant="outline"
               size="sm"

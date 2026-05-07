@@ -1,6 +1,7 @@
 "use server";
 
 import { createClient } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/admin";
 import { revalidatePath } from "next/cache";
 
 interface DarAltaClienteData {
@@ -45,8 +46,9 @@ export async function darAltaCliente(data: DarAltaClienteData) {
       return { success: false, error: "Este proyecto ya tiene un cliente asignado" };
     }
 
-    // Crear el usuario en Supabase Auth
-    const { error: signUpError, data: signUpData } = await supabase.auth.admin.createUser({
+    // Usar el cliente admin para crear el usuario en Supabase Auth
+    const adminClient = createAdminClient();
+    const { error: signUpError, data: signUpData } = await adminClient.auth.admin.createUser({
       email: data.email,
       password: data.password,
       email_confirm: true,
@@ -59,10 +61,11 @@ export async function darAltaCliente(data: DarAltaClienteData) {
       return { success: false, error: signUpError.message };
     }
 
+
     const newUserId = signUpData.user.id;
 
-    // Asignar rol de cliente al profile
-    const { error: roleError } = await supabase
+    // Asignar rol de cliente al profile (usamos admin para saltar RLS)
+    const { error: roleError } = await adminClient
       .from("profiles")
       .update({ role: "cliente" })
       .eq("id", newUserId);
@@ -70,6 +73,7 @@ export async function darAltaCliente(data: DarAltaClienteData) {
     if (roleError) {
       console.error("Error updating role:", roleError);
     }
+
 
     // Vincular el proyecto al nuevo cliente
     const { error: linkError } = await supabase

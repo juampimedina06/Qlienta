@@ -28,6 +28,11 @@ const nextConfig: NextConfig = {
         hostname: "api.microlink.io",
         pathname: "/**",
       },
+      {
+        protocol: "https",
+        hostname: "static.wikia.nocookie.net",
+        pathname: "/**",
+      },
     ],
   },
 };
