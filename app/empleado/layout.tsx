@@ -7,30 +7,35 @@ import { useAuth } from "@/context/AuthContext";
 import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
 
-import { Menu, X } from "lucide-react";
+import { Menu, X, LayoutDashboard, Rocket, User } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 function NavLink({
   href,
   label,
   isActive,
+  icon: Icon,
 }: {
   href: string;
   label: string;
   isActive: boolean;
+  icon: any;
 }) {
   return (
     <Link
       href={href}
       className={cn(
-        "relative px-4 py-2 text-sm font-medium transition-all duration-300 ease-out",
-        isActive ? "text-white-900" : "text-white-500",
-        "hover:text-white-900",
+        "group relative flex items-center gap-2.5 px-4 py-2 text-sm font-semibold transition-all duration-300",
+        isActive ? "text-emerald-400" : "text-zinc-400 hover:text-zinc-100"
       )}
     >
+      <Icon size={18} className={cn("transition-transform group-hover:scale-110", isActive ? "text-emerald-400" : "text-zinc-500")} />
       <span className="relative z-10">{label}</span>
       {isActive && (
-        <span className="absolute inset-x-0 -bottom-[7px] h-0.5 bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)]" />
+        <>
+          <span className="absolute inset-x-0 -bottom-[13px] h-[3px] bg-emerald-500 shadow-[0_0_15px_rgba(16,185,129,0.8)] rounded-t-full" />
+          <div className="absolute inset-0 bg-emerald-500/5 blur-xl rounded-full" />
+        </>
       )}
     </Link>
   );
@@ -50,43 +55,41 @@ export default function EmpleadoLayout({
     setMounted(true);
   }, []);
 
-  // Close menu when pathname changes
   useEffect(() => {
     setIsMenuOpen(false);
   }, [pathname]);
 
   const navLinks = [
-    { href: "/empleado", label: "Dashboard" },
-    { href: "/empleado/desplegados", label: "Proyectos Desplegados" },
-    { href: "/empleado/profile", label: "Mi Perfil" },
+    { href: "/empleado", label: "Dashboard", icon: LayoutDashboard },
+    { href: "/empleado/desplegados", label: "Desplegados", icon: Rocket },
+    { href: "/empleado/profile", label: "Mi Perfil", icon: User },
   ];
 
   return (
-    <section className="min-h-screen flex flex-col bg-black">
-      {/* Background with subtle pattern */}
-      <div className="fixed inset-0 -z-20 bg-slate-50" />
-      <div
-        className="fixed inset-0 -z-10 opacity-[0.03]"
-        style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23000' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
-        }}
-      />
+    <section className="min-h-screen flex flex-col bg-[#050505] text-zinc-100">
+      {/* Premium Obsidian Background Decor */}
+      <div className="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
+        <div className="absolute -top-[10%] -left-[10%] h-[40%] w-[40%] rounded-full bg-emerald-900/10 blur-[120px]" />
+        <div className="absolute top-[20%] -right-[5%] h-[30%] w-[30%] rounded-full bg-teal-900/5 blur-[100px]" />
+        <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))]" />
+      </div>
 
-      {/* Header - cleaner and brighter */}
-      <header className="sticky top-0 z-50 border-b border-slate-200/50 bg-black/90">
-        <nav className="container mx-auto flex h-14 items-center justify-between px-4 lg:px-8">
-          {/* Logo area */}
+      {/* Sleek Dark Header */}
+      <header className="sticky top-0 z-50 border-b border-zinc-800/50 bg-[#050505]/80 backdrop-blur-md">
+        <nav className="mx-auto flex h-16 max-w-[1600px] items-center justify-between px-4 md:px-12 lg:px-16">
+          {/* Brand/Logo */}
           <Link
             href="/empleado"
-            className="flex items-center gap-3 hover:opacity-80 transition-opacity"
+            className="flex items-center gap-3 transition-transform active:scale-95"
           >
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-emerald-400 to-teal-500 shadow-sm shadow-emerald-500/20">
+            <div className="relative flex h-10 w-10 items-center justify-center rounded-xl bg-zinc-900 border border-zinc-800 shadow-2xl group overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/20 to-teal-500/20 opacity-0 group-hover:opacity-100 transition-opacity" />
               <svg
-                className="h-4 w-4 text-white"
+                className="h-5 w-5 text-emerald-500"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
-                strokeWidth={2}
+                strokeWidth={2.5}
               >
                 <path
                   strokeLinecap="round"
@@ -95,70 +98,75 @@ export default function EmpleadoLayout({
                 />
               </svg>
             </div>
-            <span className="text-base font-semibold text-slate-800 tracking-tight">
-              Gestión
-            </span>
+            <div className="flex flex-col leading-none">
+              <span className="text-sm font-black uppercase tracking-widest text-zinc-100">
+                Staff
+              </span>
+              <span className="text-[10px] font-bold text-emerald-500/80">
+                Portal VIP
+              </span>
+            </div>
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden sm:flex items-center gap-1">
+          <div className="hidden md:flex items-center gap-2">
             {navLinks.map((link) => (
               <NavLink
                 key={link.href}
                 href={link.href}
                 label={link.label}
                 isActive={pathname === link.href}
+                icon={link.icon}
               />
             ))}
           </div>
 
-          {/* User section & Mobile Toggle */}
-          <div className="flex items-center gap-2">
+          {/* User & Actions */}
+          <div className="flex items-center gap-4">
             {user && mounted && (
               <div className="hidden sm:block">
                 <Link
                   href="/empleado/profile"
-                  className="group flex items-center gap-2.5 rounded-full border border-slate-200 px-1.5 py-1 pr-3.5 transition-all duration-200 hover:border-slate-300 hover:bg-white"
+                  className="flex items-center gap-3 rounded-xl border border-zinc-800 bg-zinc-900/50 px-3 py-1.5 transition-all hover:bg-zinc-900 hover:border-emerald-500/30"
                 >
                   <AvatarBadge
-                    name={user.name || "Usuario"}
-                    avatar_url={getImagenUrl(user.avatar_url || "")}
+                    name={user.name || "Staff"}
+                    avatar_url={getImagenUrl(user.avatar_url)}
+                    className="text-zinc-100"
                   />
                 </Link>
               </div>
             )}
 
-            {/* Mobile menu toggle */}
+            {/* Mobile Toggle */}
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="flex sm:hidden items-center justify-center h-9 w-9 rounded-lg border border-slate-200 text-slate-600 transition-all hover:bg-slate-50"
-              aria-label="Toggle menu"
+              className="flex md:hidden items-center justify-center h-10 w-10 rounded-xl border border-zinc-800 text-zinc-400 transition-all hover:bg-zinc-900"
             >
-              {isMenuOpen ? <X size={18} /> : <Menu size={18} />}
+              {isMenuOpen ? <X size={20} /> : <Menu size={20} />}
             </button>
           </div>
         </nav>
 
-        {/* Mobile Navigation Menu */}
+        {/* Mobile Menu */}
         {isMenuOpen && (
-          <div className="sm:hidden absolute top-14 left-0 right-0 border-b border-slate-200  backdrop-blur-xl animate-in slide-in-from-top duration-300 shadow-xl">
-            <div className="flex flex-col p-4 gap-1">
+          <div className="md:hidden absolute top-16 left-0 right-0 border-b border-zinc-800 bg-[#050505] p-4 animate-in slide-in-from-top duration-300">
+            <div className="flex flex-col gap-2">
               {navLinks.map((link) => {
                 const isActive = pathname === link.href;
                 return (
                   <Link
                     key={link.href}
                     href={link.href}
-                    className={`px-4 py-3 text-sm font-medium transition-all flex items-center justify-between ${
-                      isActive
-                        ? "border-l-2 border-white/90 text-white/90"
-                        : "text-slate-600 hover:text-white "
-                    }`}
-                  >
-                    {link.label}
-                    {isActive && (
-                      <div className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
+                    className={cn(
+                      "flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold transition-all",
+                      isActive 
+                        ? "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20" 
+                        : "text-zinc-400 hover:bg-zinc-900"
                     )}
+                  >
+                    <link.icon size={18} />
+                    {link.label}
                   </Link>
                 );
               })}
@@ -167,10 +175,19 @@ export default function EmpleadoLayout({
         )}
       </header>
 
-      {/* Main content */}
-      <main className="flex-1 container mx-auto py-6 px-4 lg:px-8">
+      {/* Main Content */}
+      <main className="flex-1 w-full max-w-[1600px] mx-auto py-8 px-4 md:px-12 lg:px-16">
         {children}
       </main>
+
+      {/* Subtle Footer */}
+      <footer className="py-6 border-t border-zinc-900">
+        <div className="mx-auto max-w-[1600px] px-4 md:px-12 lg:px-16 text-center">
+          <p className="text-[10px] uppercase tracking-widest text-zinc-600 font-bold">
+            Qlienta VIP Management Platform &copy; {new Date().getFullYear()}
+          </p>
+        </div>
+      </footer>
     </section>
   );
 }

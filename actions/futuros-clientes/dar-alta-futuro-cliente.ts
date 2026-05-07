@@ -96,6 +96,12 @@ export async function darAltaFuturoCliente(data: DarAltaFuturoClienteData) {
       };
     }
 
+    // Actualizar el estado del futuro cliente a 'aceptado'
+    await supabase
+      .from("futuros_clientes")
+      .update({ estado: "aceptado" })
+      .eq("id", data.futuro_cliente_id);
+
     revalidatePath("/admin/futurosClientes");
     revalidatePath("/admin/clientes");
     revalidatePath("/admin/proyectos");

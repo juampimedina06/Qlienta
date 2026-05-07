@@ -118,12 +118,13 @@ const UserProfile: React.FC<UserProfileProps> = ({
 
   return (
     <>
-      <Card className={`w-full max-w-md ${className}`}>
-        <CardContent className="space-y-6 pt-6">
+      <div className={`w-full max-w-md ${className} glass-card rounded-[2.5rem] p-8 sm:p-10 shadow-2xl shadow-blue-500/5`}>
+        <div className="space-y-8">
           {/* Información del usuario */}
-          <div>
-            <div className="flex flex-col justify-center items-center ">
-              <Avatar className="h-24 w-24 border-4 border-background shadow-lg ">
+          <div className="flex flex-col items-center text-center">
+            <div className="relative mb-6">
+              <div className="absolute -inset-1 rounded-full bg-gradient-to-tr from-blue-500 to-indigo-500 opacity-20 blur-md animate-pulse" />
+              <Avatar className="h-32 w-32 border-4 border-white shadow-2xl">
                 {profile.avatar_url ? (
                   <Image
                     src={getImagenUrl(profile.avatar_url)}
@@ -133,28 +134,27 @@ const UserProfile: React.FC<UserProfileProps> = ({
                     height={1000}
                   />
                 ) : (
-                  <AvatarFallback className="text-lg bg-primary text-primary-foreground">
+                  <AvatarFallback className="text-2xl font-black bg-blue-600 text-white">
                     {getInitials(profile.name)}
                   </AvatarFallback>
                 )}
               </Avatar>
+              <div className="absolute bottom-2 right-2 h-6 w-6 rounded-full border-4 border-white bg-emerald-500 shadow-sm" />
             </div>
 
-            <div className="flex-1 text-center mt-4">
-              <h3 className="text-xl font-semibold">
+            <div className="space-y-1">
+              <h3 className="text-2xl font-black tracking-tight text-stone-900">
                 {profile.name || "Usuario sin nombre"}
               </h3>
-              <div className="flex flex-col items-center justify-center gap-2 mt-2 text-muted-foreground">
-                <div className="flex items-center gap-2">
-                  <Mail className="h-4 w-4" />
-                  <span className="text-sm">
-                    {profile.email || "Sin email"}
-                  </span>
+              <div className="flex flex-col items-center gap-1.5 text-stone-500">
+                <div className="flex items-center gap-2 text-sm font-medium">
+                  <Mail className="h-3.5 w-3.5 text-blue-500" />
+                  <span>{profile.email || "Sin email"}</span>
                 </div>
                 {profile.phone && (
-                  <div className="flex items-center gap-2">
-                    <Phone className="h-4 w-4" />
-                    <span className="text-sm">{profile.phone}</span>
+                  <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider">
+                    <Phone className="h-3.5 w-3.5 text-stone-400" />
+                    <span>{profile.phone}</span>
                   </div>
                 )}
               </div>
@@ -162,60 +162,57 @@ const UserProfile: React.FC<UserProfileProps> = ({
           </div>
 
           {/* Acciones del perfil */}
-          <div className="space-y-3">
-            <h4 className="font-medium text-sm text-muted-foreground uppercase tracking-wider text-center lg:text-left">
-              Cuenta
-            </h4>
+          <div className="space-y-4">
+            <div className="flex items-center gap-3 px-1">
+               <span className="h-[1px] flex-1 bg-stone-100" />
+               <h4 className="text-[10px] font-black text-stone-400 uppercase tracking-[0.3em]">
+                 Gestión de Cuenta
+               </h4>
+               <span className="h-[1px] flex-1 bg-stone-100" />
+            </div>
 
-            <div className="grid gap-4">
-              <Button
-                variant="outline"
-                className="w-full justify-start h-14 cursor-pointer"
+            <div className="grid gap-3">
+              <button
+                className="group flex w-full items-center gap-4 rounded-2xl bg-white p-4 ring-1 ring-stone-100 transition-all hover:ring-blue-200 hover:shadow-lg hover:shadow-blue-500/5 active:scale-[0.98]"
                 onClick={handleEditClick}
               >
-                <Edit className="mr-3 h-5 w-5 text-primary" />
-                <div className="text-left">
-                  <div className="font-medium">Editar perfil</div>
-                  <div className="text-xs text-muted-foreground">
-                    Actualiza tu nombre y/o avatar
-                  </div>
+                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-50 text-blue-600 transition-colors group-hover:bg-blue-600 group-hover:text-white">
+                  <Edit size={20} />
                 </div>
-              </Button>
+                <div className="flex-1 text-left">
+                  <div className="text-sm font-black text-stone-900">Editar Perfil</div>
+                  <div className="text-[10px] font-bold text-stone-400 uppercase tracking-tight">Nombre y Avatar</div>
+                </div>
+              </button>
 
-              <Link href="/update-password" intermediate-link="true">
-                <Button
-                  variant="outline"
-                  className="w-full justify-start h-14 cursor-pointer"
-                  onClick={onChangePassword}
-                >
-                  <Key className="mr-3 h-5 w-5 text-primary" />
-                  <div className="text-left">
-                    <div className="font-medium">Cambiar contraseña</div>
-                    <div className="text-xs text-muted-foreground">
-                      Establece una nueva contraseña segura
-                    </div>
-                  </div>
-                </Button>
+              <Link href="/update-password" intermediate-link="true" className="group flex w-full items-center gap-4 rounded-2xl bg-white p-4 ring-1 ring-stone-100 transition-all hover:ring-purple-200 hover:shadow-lg hover:shadow-purple-500/5 active:scale-[0.98]">
+                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-purple-50 text-purple-600 transition-colors group-hover:bg-purple-600 group-hover:text-white">
+                  <Key size={20} />
+                </div>
+                <div className="flex-1 text-left">
+                  <div className="text-sm font-black text-stone-900">Seguridad</div>
+                  <div className="text-[10px] font-bold text-stone-400 uppercase tracking-tight">Cambiar Contraseña</div>
+                </div>
               </Link>
+              
               <form action="/api/auth/signout" method="post">
-                <Button
-                  variant="outline"
-                  className="w-full justify-start h-14 text-destructive border-destructive/20 hover:bg-destructive/10 hover:text-destructive cursor-pointer"
+                <button
+                  className="group flex w-full items-center gap-4 rounded-2xl bg-rose-50/30 p-4 ring-1 ring-rose-100 transition-all hover:bg-rose-50 hover:ring-rose-200 active:scale-[0.98]"
                   onClick={onLogout}
                 >
-                  <LogOut className="mr-3 h-5 w-5" />
-                  <div className="text-left">
-                    <div className="font-medium">Cerrar sesión</div>
-                    <div className="text-xs text-muted-foreground">
-                      Salir de tu cuenta actual
-                    </div>
+                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-rose-100 text-rose-600 transition-colors group-hover:bg-rose-600 group-hover:text-white">
+                    <LogOut size={20} />
                   </div>
-                </Button>
+                  <div className="flex-1 text-left">
+                    <div className="text-sm font-black text-stone-900">Cerrar Sesión</div>
+                    <div className="text-[10px] font-bold text-stone-400 uppercase tracking-tight">Salir de la cuenta</div>
+                  </div>
+                </button>
               </form>
             </div>
           </div>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
       <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
         <DialogContent>
           <DialogHeader>

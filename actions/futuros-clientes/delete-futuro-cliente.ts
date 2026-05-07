@@ -7,6 +7,13 @@ export async function deleteFuturoCliente(id: string) {
   try {
     const supabase = await createClient();
 
+    // 1. Desvincular referencias en proyectos para evitar error de FK
+    await supabase
+      .from("proyectos")
+      .update({ futuro_cliente_id: null })
+      .eq("futuro_cliente_id", id);
+
+    // 2. Eliminar el prospecto
     const { error } = await supabase
       .from("futuros_clientes")
       .delete()
@@ -17,6 +24,7 @@ export async function deleteFuturoCliente(id: string) {
       return { success: false, error: error.message };
     }
 
+    revalidatePath("/admin/futurosClientes");
     revalidatePath("/empleado");
     return { success: true };
   } catch (error) {

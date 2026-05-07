@@ -38,7 +38,7 @@ export function ClienteActivoCard({
           <div className="flex items-center justify-between gap-3 ">
             <AvatarBadge
               name={cliente.name || "Cliente"}
-              avatar_url={getImagenUrl(cliente.avatar_url || "")}
+              avatar_url={getImagenUrl(cliente.avatar_url)}
               className="h-11 w-11"
             />
             <Badge className="px-1.5 py-0 text-[9px] uppercase font-bold bg-emerald-500/10 text-emerald-500 border-emerald-500/20 mt-1">

@@ -8,12 +8,18 @@ import { FuturoClienteCard } from "./FuturoClienteCard";
 import { FuturoClienteForm } from "./FormFuturoCliente";
 import { FuturoClientesFilters } from "./FuturosClientesFilters";
 import { Button } from "@/components/ui/button";
-import { Plus, Loader2, SearchX } from "lucide-react";
+import { Plus, Loader2, SearchX, Sparkles } from "lucide-react";
 import { toast } from "react-hot-toast";
 
 const LIMIT = 10;
 
-export function FuturosClientesList({ soloDesplegados = false, basePath = "/admin/futurosClientes" }: { soloDesplegados?: boolean; basePath?: string }) {
+export function FuturosClientesList({
+  soloDesplegados = false,
+  basePath = "/admin/futurosClientes",
+}: {
+  soloDesplegados?: boolean;
+  basePath?: string;
+}) {
   // Estado de los datos
   const [items, setItems] = useState<FuturoCliente[]>([]);
   const [page, setPage] = useState(0);
@@ -36,7 +42,11 @@ export function FuturosClientesList({ soloDesplegados = false, basePath = "/admi
   const observerTarget = useRef<HTMLDivElement>(null);
 
   const fetchItems = useCallback(
-    async (pageNum: number, currentFilters: typeof filters, isNewSearch = false) => {
+    async (
+      pageNum: number,
+      currentFilters: typeof filters,
+      isNewSearch = false,
+    ) => {
       setLoading(true);
       try {
         const result = await getFuturosClientes({
@@ -49,7 +59,9 @@ export function FuturosClientesList({ soloDesplegados = false, basePath = "/admi
         });
 
         if (result.success && result.data) {
-          setItems((prev) => (isNewSearch ? result.data! : [...prev, ...result.data!]));
+          setItems((prev) =>
+            isNewSearch ? result.data! : [...prev, ...result.data!],
+          );
           setHasMore(result.hasMore);
         } else {
           toast.error(result.error || "Error al cargar prospectos");
@@ -62,7 +74,7 @@ export function FuturosClientesList({ soloDesplegados = false, basePath = "/admi
         setInitialLoading(false);
       }
     },
-    [],
+    [soloDesplegados],
   );
 
   // Efecto para cambios en filtros
@@ -76,7 +88,12 @@ export function FuturosClientesList({ soloDesplegados = false, basePath = "/admi
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
-        if (entries[0].isIntersecting && hasMore && !loading && !initialLoading) {
+        if (
+          entries[0].isIntersecting &&
+          hasMore &&
+          !loading &&
+          !initialLoading
+        ) {
           const nextPage = page + 1;
           setPage(nextPage);
           fetchItems(nextPage, filters);
@@ -103,7 +120,8 @@ export function FuturosClientesList({ soloDesplegados = false, basePath = "/admi
   };
 
   const handleDelete = async (item: FuturoCliente) => {
-    if (!confirm(`¿Estás seguro de eliminar a "${item.nombre_negocio}"?`)) return;
+    if (!confirm(`¿Estás seguro de eliminar a "${item.nombre_negocio}"?`))
+      return;
 
     try {
       const result = await deleteFuturoCliente(item.id);
@@ -126,11 +144,26 @@ export function FuturosClientesList({ soloDesplegados = false, basePath = "/admi
   };
 
   return (
-    <div className="space-y-6">
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-        <h1 className="text-3xl font-bold tracking-tight">Futuros Clientes</h1>
-        <Button onClick={() => { setEditingItem(null); setIsFormOpen(true); }} className="gap-2">
-          <Plus size={18} /> Nuevo Prospecto
+    <div className="space-y-8">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6">
+        <div className="space-y-1">
+          <h1 className="text-3xl font-black tracking-tight text-white">
+            Pipeline Directo
+          </h1>
+          <p className="text-sm font-medium text-zinc-500">
+            Gestión de leads y oportunidades activas
+          </p>
+        </div>
+        <Button
+          onClick={() => {
+            setEditingItem(null);
+            setIsFormOpen(true);
+          }}
+          className="group relative overflow-hidden bg-emerald-500 hover:bg-emerald-400 text-black font-black uppercase tracking-widest px-6 py-6 rounded-2xl transition-all active:scale-95 shadow-[0_0_20px_rgba(16,185,129,0.3)]"
+        >
+          <div className="absolute inset-0 bg-white opacity-0 group-hover:opacity-20 transition-opacity" />
+          <Plus size={20} className="mr-2" />
+          Futuro cliente
         </Button>
       </div>
 
@@ -138,17 +171,24 @@ export function FuturosClientesList({ soloDesplegados = false, basePath = "/admi
         currentFilters={filters}
         onSearchChange={(search) => setFilters((prev) => ({ ...prev, search }))}
         onEstadoChange={(estado) => setFilters((prev) => ({ ...prev, estado }))}
-        onCategoriaChange={(categoria) => setFilters((prev) => ({ ...prev, categoria }))}
+        onCategoriaChange={(categoria) =>
+          setFilters((prev) => ({ ...prev, categoria }))
+        }
       />
 
       {initialLoading ? (
-        <div className="flex flex-col items-center justify-center py-20 gap-4">
-          <Loader2 className="h-10 w-10 animate-spin text-primary" />
-          <p className="text-muted-foreground animate-pulse">Cargando prospectos...</p>
+        <div className="flex flex-col items-center justify-center py-32 gap-6">
+          <div className="relative">
+            <div className="absolute inset-0 bg-emerald-500 blur-2xl opacity-20 animate-pulse" />
+            <Loader2 className="h-12 w-12 animate-spin text-emerald-500 relative z-10" />
+          </div>
+          <p className="text-zinc-500 font-bold uppercase tracking-[0.3em] animate-pulse">
+            Sincronizando Leads...
+          </p>
         </div>
       ) : items.length > 0 ? (
         <>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {items.map((item) => (
               <FuturoClienteCard
                 key={item.id}
@@ -161,35 +201,44 @@ export function FuturosClientesList({ soloDesplegados = false, basePath = "/admi
           </div>
 
           {/* Sentinel para scroll infinito */}
-          <div ref={observerTarget} className="h-20 flex items-center justify-center">
+          <div
+            ref={observerTarget}
+            className="h-24 flex items-center justify-center"
+          >
             {loading && hasMore && (
-              <div className="flex items-center gap-2 text-muted-foreground">
-                <Loader2 className="h-5 w-5 animate-spin" />
-                <span>Cargando más...</span>
+              <div className="flex items-center gap-3 text-zinc-500 font-bold uppercase tracking-widest text-[10px]">
+                <Loader2 className="h-4 w-4 animate-spin text-emerald-500" />
+                <span>Cargando más registros</span>
               </div>
             )}
             {!hasMore && items.length > 0 && (
-              <p className="text-sm text-muted-foreground italic">
-                Has llegado al final de la lista
-              </p>
+              <div className="flex items-center gap-2 text-[10px] text-zinc-600 font-black uppercase tracking-[0.4em]">
+                <Sparkles size={12} className="text-emerald-500/30" />
+                Fin del pipeline
+              </div>
             )}
           </div>
         </>
       ) : (
-        <div className="flex flex-col items-center justify-center py-20 border-2 border-dashed rounded-xl bg-muted/30">
-          <div className="bg-background p-4 rounded-full shadow-sm mb-4">
-            <SearchX size={40} className="text-muted-foreground" />
+        <div className="flex flex-col items-center justify-center py-24 border border-zinc-800 border-dashed rounded-[2rem] bg-zinc-900/10">
+          <div className="bg-zinc-900 p-6 rounded-3xl border border-zinc-800 shadow-xl mb-6">
+            <SearchX size={48} className="text-zinc-700" />
           </div>
-          <h3 className="text-xl font-semibold">No se encontraron prospectos</h3>
-          <p className="text-muted-foreground text-center max-w-xs mt-2">
-            Probá ajustando los filtros o cargá un nuevo cliente para empezar.
+          <h3 className="text-2xl font-black text-white tracking-tight">
+            Sin resultados
+          </h3>
+          <p className="text-zinc-500 text-center max-w-xs mt-3 font-medium">
+            No encontramos leads que coincidan con tu criterio de búsqueda
+            actual.
           </p>
           <Button
             variant="outline"
-            className="mt-6"
-            onClick={() => setFilters({ search: "", estado: "all", categoria: "all" })}
+            className="mt-8 border-zinc-700 hover:bg-zinc-800 text-zinc-400 font-bold px-8 rounded-xl"
+            onClick={() =>
+              setFilters({ search: "", estado: "all", categoria: "all" })
+            }
           >
-            Limpiar filtros
+            Resetear Pipeline
           </Button>
         </div>
       )}
