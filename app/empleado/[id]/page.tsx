@@ -30,8 +30,8 @@ export default async function FuturoClienteDetailPage({ params }: PageProps) {
   }
 
   return (
-    <main className="container mx-auto py-8 px-4 lg:px-8">
+    <div className="w-full">
       <FuturoClienteDetail futuroCliente={result.data} variant="empleado" />
-    </main>
+    </div>
   );
 }

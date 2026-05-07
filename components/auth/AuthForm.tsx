@@ -25,15 +25,15 @@ const AuthForm = ({ type, onUserCreated }: AuthModalProps) => {
   >(type);
 
   return (
-    <div
-      className="mx-auto bg-background max-w-lg lg:border lg:border-white/50 mt-10 lg:p-6"
-      style={{ borderRadius: 20 }}
-    >
+    <div className="mx-auto w-full bg-white/5 backdrop-blur-2xl border border-white/10 shadow-2xl shadow-black/20 p-8 rounded-2xl">
       {typeSelected === "sign-in" && (
         <SignInForm setTypeSelected={setTypeSelected} />
       )}
       {typeSelected === "sign-up" && (
-        <SignUpForm setTypeSelected={setTypeSelected} onUserCreated={onUserCreated} />
+        <SignUpForm
+          setTypeSelected={setTypeSelected}
+          onUserCreated={onUserCreated}
+        />
       )}
       {typeSelected === "recover-password" && (
         <RecoverPasswordForm setTypeSelected={setTypeSelected} />

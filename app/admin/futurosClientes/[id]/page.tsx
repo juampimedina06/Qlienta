@@ -14,7 +14,9 @@ export default function FuturoClienteDetailPage() {
   const router = useRouter();
   const id = params.id as string;
 
-  const [futuroCliente, setFuturoCliente] = useState<FuturoCliente | null>(null);
+  const [futuroCliente, setFuturoCliente] = useState<FuturoCliente | null>(
+    null,
+  );
   const [loading, setLoading] = useState(true);
   const [isAltaOpen, setIsAltaOpen] = useState(false);
 
@@ -42,7 +44,9 @@ export default function FuturoClienteDetailPage() {
     return (
       <div className="flex flex-col items-center justify-center py-20 gap-4">
         <Loader2 className="h-10 w-10 animate-spin text-primary" />
-        <p className="text-muted-foreground animate-pulse">Cargando prospecto...</p>
+        <p className="text-muted-foreground animate-pulse">
+          Cargando prospecto...
+        </p>
       </div>
     );
   }

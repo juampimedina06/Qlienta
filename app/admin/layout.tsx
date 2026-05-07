@@ -118,7 +118,7 @@ export default function AdminLayout({
               >
                 <AvatarBadge
                   name={user.name || "Usuario"}
-                  avatar_url={getImagenUrl(user.avatar_url || "")}
+                  avatar_url={getImagenUrl(user.avatar_url)}
                 />
               </Link>
             )}

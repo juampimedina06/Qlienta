@@ -21,7 +21,7 @@ export const AvatarBadge = ({ name, avatar_url, className }: AvatarBadgeProps) =
   return (
     <div className={cn("flex items-center gap-2", className)}>
       <Avatar className="h-7 w-7 border border-inherit/20">
-        <AvatarImage src={avatar_url || ""} />
+        <AvatarImage src={avatar_url || undefined} />
         <AvatarFallback className="text-xs font-medium bg-transparent">
           {getInitials(name)}
         </AvatarFallback>

@@ -1,6 +1,5 @@
 "use client";
 import { useAuth } from "@/context/AuthContext";
-import { AvatarBadge } from "@/components/AvatarBadge";
 import { getImagenUrl } from "@/lib/utils";
 import { ClienteProyectos } from "@/components/proyectos/ClienteProyectos";
 
@@ -8,95 +7,104 @@ export default function PageClient() {
   const { user } = useAuth();
 
   const userName = user?.name?.split(" ")[0] || "Usuario";
-  const avatarUrl = getImagenUrl(user?.avatar_url || "");
+  const avatarUrl = getImagenUrl(user?.avatar_url);
 
   return (
-    <div className="w-full min-h-screen">
-      {/* Premium header card */}
-      <div className="relative overflow-hidden border border-white/10 bg-gradient-to-br from-stone-900 via-stone-950 to-stone-900 shadow-2xl shadow-black/20 rounded-2xl mb-8">
-        {/* Subtle backdrop pattern */}
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute inset-0 bg-[linear-gradient(90deg,#60a5fa_1px,transparent_1px),linear-gradient(180deg,#60a5fa_1px,transparent_1px)] bg-[size:20px_20px]" />
-          <div className="absolute inset-0 bg-[radial-gradient(circle,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:30px_30px]" />
-        </div>
+    <div className="w-full space-y-10">
+      {/* Premium Header Section */}
+      <section className="relative overflow-hidden rounded-[2.5rem] bg-white p-8 sm:p-12 shadow-2xl shadow-blue-500/5 ring-1 ring-stone-100">
+        {/* Abstract Background Decoration */}
+        <div className="absolute -right-20 -top-20 h-64 w-64 rounded-full bg-blue-50 blur-[100px]" />
+        <div className="absolute -left-20 -bottom-20 h-64 w-64 rounded-full bg-indigo-50 blur-[100px]" />
 
-        {/* Header section */}
-        <div className="relative px-4 pt-8 pb-6 sm:px-6 sm:pt-10 sm:pb-8">
-          {/* Decorative top elements */}
-          <div className="absolute top-4 left-6 sm:top-6 sm:left-8 flex items-center gap-2">
-            <div className="h-3 w-3 rounded-full bg-amber-500" />
-            <div className="h-3 w-3 rounded-full bg-sky-500" />
-            <div className="h-3 w-3 rounded-full bg-purple-500" />
-          </div>
-
-          {/* Avatar */}
-          <div className="flex justify-center mb-6">
+        <div className="relative flex flex-col items-center justify-between gap-8 md:flex-row">
+          <div className="flex flex-col items-center gap-6 md:flex-row md:items-start">
             <div className="relative">
-              <AvatarBadge
-                name={userName}
-                avatar_url={avatarUrl}
-                className="h-24 w-24 border-4 border-stone-900 shadow-2xl shadow-black/20"
+              <div className="absolute -inset-1 rounded-full bg-gradient-to-tr from-blue-500 to-indigo-500 opacity-20 blur-md animate-pulse" />
+              <img
+                src={avatarUrl}
+                alt={userName}
+                className="h-28 w-28 rounded-full border-4 border-white shadow-xl object-cover"
               />
-              {/* Decorative glow effect */}
-              <div className="absolute -inset-1 bg-amber-500/10 rounded-full blur-xl animate-pulse" />
+              <div className="absolute bottom-1 right-1 h-6 w-6 rounded-full border-4 border-white bg-emerald-500 shadow-sm" />
+            </div>
+            <div className="text-center md:text-left">
+              <div className="flex items-center justify-center gap-2 md:justify-start">
+                <span className="text-[10px] font-black uppercase tracking-[0.3em] text-blue-600/60">
+                  Panel del Cliente
+                </span>
+                <span className="h-1 w-1 rounded-full bg-stone-300" />
+                <span className="text-[10px] font-bold uppercase tracking-widest text-stone-400">
+                  Status: Activo
+                </span>
+              </div>
+              <h1 className="mt-2 text-4xl font-black tracking-tight text-stone-900 sm:text-5xl">
+                ¡Hola, {userName}!{" "}
+                <span className="animate-bounce inline-block">👋</span>
+              </h1>
+              <p className="mt-3 max-w-md text-base font-medium leading-relaxed text-stone-500">
+                Bienvenido a tu centro de control. Acá podés supervisar el
+                progreso de tus proyectos en tiempo real.
+              </p>
             </div>
           </div>
 
-          {/* Name and title */}
-          <div className="text-center">
-            <h1 className="text-3xl font-bold text-white tracking-tight sm:text-4xl">
-              ¡Hola, {userName}! 👋
-            </h1>
-            <p className="mt-2 text-base text-stone-300 sm:text-lg">
-              Bienvenido a tu espacio personalizado, acá podés ver el estado de
-              tu proyecto
-            </p>
-          </div>
-        </div>
-
-        {/* Divider */}
-        <div className="relative px-4 sm:px-6">
-          <div className="h-[1px] bg-gradient-to-r from-transparent via-white/10 to-transparent" />
-        </div>
-
-        {/* Stats section */}
-        <div className="relative px-4 py-6 sm:px-6 sm:py-8">
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-3 sm:gap-6">
-            <div className="rounded-2xl bg-stone-800/50 px-4 py-5 text-center backdrop-blur-md border border-white/5">
-              <p className="text-xs font-medium text-stone-400 uppercase tracking-wider">
+          {/* Quick Stats Grid */}
+          <div className="grid w-full grid-cols-2 gap-3 sm:w-auto sm:grid-cols-2">
+            <div className="flex flex-col rounded-3xl bg-stone-50/50 p-4 ring-1 ring-stone-100 transition-colors hover:bg-stone-50">
+              <span className="text-[10px] font-bold uppercase tracking-wider text-stone-400">
                 Miembro desde
-              </p>
-              <p className="mt-2 text-lg font-semibold text-white">
-                {user?.created_at?.split("T")[0] || "-"}
-              </p>
+              </span>
+              <span className="mt-1 text-sm font-black text-stone-900">
+                {user?.created_at
+                  ? new Date(user.created_at).toLocaleDateString("es-AR", {
+                      month: "short",
+                      year: "numeric",
+                    })
+                  : "-"}
+              </span>
             </div>
-            <div className="rounded-2xl bg-stone-800/50 px-4 py-5 text-center backdrop-blur-md border border-white/5">
-              <p className="text-xs font-medium text-stone-400 uppercase tracking-wider">
-                Rol
-              </p>
-              <p className="mt-2 text-lg font-semibold text-white capitalize">
-                {user?.role === "cliente" ? "Cliente" : user?.role || "-"}
-              </p>
-            </div>
-            <div className="rounded-2xl bg-stone-800/50 px-4 py-5 text-center backdrop-blur-md border border-white/5">
-              <p className="text-xs font-medium text-stone-400 uppercase tracking-wider">
-                Email
-              </p>
-              <p className="mt-2 text-sm font-mono text-stone-400 truncate">
-                {user?.email || "-"}
-              </p>
+            <div className="flex flex-col rounded-3xl bg-blue-50/30 p-4 ring-1 ring-blue-100/50 transition-colors hover:bg-blue-50/50">
+              <span className="text-[10px] font-bold uppercase tracking-wider text-blue-400">
+                Soporte VIP
+              </span>
+              <span className="mt-1 text-sm font-black text-blue-600">
+                Habilitado
+              </span>
             </div>
           </div>
         </div>
-      </div>
+      </section>
 
-      {/* Proyecto section */}
-      <div className="relative overflow-hidden border border-white/10 bg-gradient-to-br from-stone-900 via-stone-950 to-stone-900 shadow-2xl shadow-black/20 rounded-2xl p-6 sm:p-8">
-        <div className="absolute inset-0 opacity-5">
-          <div className="absolute inset-0 bg-[radial-gradient(circle,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:30px_30px]" />
-        </div>
+      {/* Main Content Area */}
+      <div className="grid grid-cols-1 gap-10">
         <div className="relative">
-          <ClienteProyectos />
+          <div className="mb-6 flex items-center justify-between px-2">
+            <div className="flex items-center gap-3">
+              <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-blue-600 text-white shadow-lg shadow-blue-500/30">
+                <svg
+                  className="h-4 w-4"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2.5}
+                    d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2z"
+                  />
+                </svg>
+              </div>
+              <h2 className="text-2xl font-black tracking-tight text-stone-900">
+                Mis Proyectos
+              </h2>
+            </div>
+          </div>
+
+          <div className="glass-card rounded-[2.5rem] p-6 sm:p-10 shadow-2xl shadow-blue-500/5">
+            <ClienteProyectos />
+          </div>
         </div>
       </div>
     </div>

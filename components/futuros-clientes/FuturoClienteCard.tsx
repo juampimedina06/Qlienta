@@ -1,17 +1,14 @@
-import { Card, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
   Calendar,
   Edit,
   Trash2,
-  Eye,
   MapPin,
-  Phone,
   Mail,
-  Tag,
   Building2,
   ExternalLink,
+  ChevronRight,
 } from "lucide-react";
 import Image from "next/image";
 import { format } from "date-fns";
@@ -28,22 +25,10 @@ interface FuturoClienteCardProps {
 }
 
 const estadoConfig = {
-  "en creacion": {
-    color: "bg-muted/50 text-muted-foreground border-border",
-    label: "En creación",
-  },
-  creado: {
-    color: "bg-blue-500/10 text-blue-500 border-blue-500/20",
-    label: "Creado",
-  },
-  aceptado: {
-    color: "bg-emerald-500/10 text-emerald-500 border-emerald-500/20",
-    label: "Aceptado",
-  },
-  rechazado: {
-    color: "bg-rose-500/10 text-rose-500 border-rose-500/20",
-    label: "Rechazado",
-  },
+  "en creacion": { variant: "secondary" as const, label: "En creación" },
+  creado: { variant: "outline" as const, label: "Nuevo" },
+  aceptado: { variant: "default" as const, label: "Aceptado" },
+  rechazado: { variant: "destructive" as const, label: "Rechazado" },
 };
 
 export function FuturoClienteCard({
@@ -53,133 +38,110 @@ export function FuturoClienteCard({
   basePath = "/admin/futurosClientes",
 }: FuturoClienteCardProps) {
   const estado =
-    estadoConfig[futuroCliente.estado] || estadoConfig["en creacion"];
+    estadoConfig[futuroCliente.estado] ?? estadoConfig["en creacion"];
 
   return (
-    <Card className="group overflow-hidden border border-border/50 bg-card/60 backdrop-blur-sm rounded-2xl transition-all duration-300 hover:shadow-xl hover:border-primary/30 flex flex-col">
-      <CardHeader className="pb-3 space-y-3">
-        {/* Estado */}
+    <div className="group flex flex-col overflow-hidden rounded-xl border border-border bg-card transition-colors hover:border-border/80">
+      {/* Body */}
+      <div className="flex flex-col gap-5 p-5">
+        {/* Top row */}
         <div className="flex items-center justify-between">
           <Badge
-            className={cn(
-              "px-2 py-0.5 text-[10px] uppercase font-bold tracking-wide border",
-              estado.color,
-            )}
+            variant={estado.variant}
+            className="rounded-full px-3 py-0.5 text-[11px] font-medium"
           >
             {estado.label}
           </Badge>
-
-          <span className="text-[10px] text-muted-foreground flex items-center gap-1">
+          <span className="flex items-center gap-1.5 text-[12px] text-muted-foreground">
             <Calendar size={12} />
-            {format(futuroCliente.created_at, "d MMM", { locale: es })}
+            {format(new Date(futuroCliente.created_at), "d MMMM", {
+              locale: es,
+            })}
           </span>
         </div>
 
-        {/* Header negocio */}
-        <div className="flex items-center gap-3">
-          {/* Logo */}
+        {/* Identity */}
+        <div className="flex items-center gap-4">
           {futuroCliente.logo_negocio ? (
-            <div className="relative w-12 h-12 rounded-xl overflow-hidden ring-1 ring-border/50">
-              <Image
-                src={futuroCliente.logo_negocio}
-                alt={futuroCliente.nombre_negocio}
-                fill
-                className="object-cover group-hover:scale-105 transition-transform"
-              />
-            </div>
+            <Image
+              src={futuroCliente.logo_negocio}
+              alt={futuroCliente.nombre_negocio}
+              width={42}
+              height={42}
+              className="rounded-full object-cover ring-1 ring-border"
+            />
           ) : (
-            <div className="w-12 h-12 rounded-xl bg-muted flex items-center justify-center ring-1 ring-border/50">
-              <Building2 size={18} className="text-muted-foreground" />
+            <div className="flex h-[42px] w-[42px] shrink-0 items-center justify-center rounded-full border border-border bg-muted text-muted-foreground">
+              <Building2 size={18} />
             </div>
           )}
-
-          {/* Nombre + categoría */}
           <div className="min-w-0">
-            <CardTitle className="text-sm font-semibold line-clamp-1 group-hover:text-primary transition-colors">
+            <p className="truncate text-[15px] font-medium text-foreground">
               {futuroCliente.nombre_negocio}
-            </CardTitle>
-
-            <p className="text-[11px] text-muted-foreground flex items-center gap-1">
-              <Tag size={11} />
+            </p>
+            <p className="text-[12px] text-muted-foreground">
               {futuroCliente.categoria}
             </p>
           </div>
         </div>
 
-        {/* Contacto */}
-        <div className="space-y-1 pt-1">
+        {/* Meta */}
+        <div className="flex flex-col gap-2 border-t border-border pt-4">
           <a
             href={futuroCliente.ubicacion_negocio}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-2 text-xs text-muted-foreground hover:text-sky-500 transition-colors break-words"
+            className="flex items-center gap-2.5 text-[13px] text-muted-foreground hover:text-foreground transition-colors"
           >
-            <MapPin size={12} className="shrink-0 opacity-60" />
-            <span className="line-clamp-1">
-              {futuroCliente.ubicacion_negocio}
-            </span>
+            <MapPin size={13} className="shrink-0" />
+            <span className="truncate">{futuroCliente.ubicacion_negocio}</span>
           </a>
-
-          <p className="flex items-center gap-2 text-xs text-muted-foreground">
-            <Mail size={12} className="opacity-60" />
+          <div className="flex items-center gap-2.5 text-[13px] text-muted-foreground">
+            <Mail size={13} className="shrink-0" />
             <span className="truncate">{futuroCliente.email_contacto}</span>
-          </p>
+          </div>
         </div>
-      </CardHeader>
+      </div>
 
       {/* Footer */}
-      <CardFooter className="mt-auto pt-3 flex justify-between items-center border-t border-border/20">
-        <div className="flex items-center gap-1">
-          {futuroCliente.proyecto_desplegado && (
-            <Button
-              variant="outline"
-              size="sm"
-              className="h-7 px-2 text-[10px] gap-1 border-emerald-500/30 bg-emerald-500/5 text-emerald-600 hover:bg-emerald-500/10"
-              asChild
-            >
-              <a
-                href={futuroCliente.proyecto_desplegado}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <ExternalLink size={12} />
-                Ver Proyecto
-              </a>
-            </Button>
-          )}
-        </div>
-
-        <div className="flex items-center gap-1">
-          <Button
-            variant="ghost"
-            size="icon"
-            className="h-7 w-7 rounded-full hover:bg-primary/10 hover:text-primary"
-            asChild
+      <div className="mt-auto flex items-center justify-between border-t border-border bg-muted/30 px-5 py-3">
+        {futuroCliente.proyecto_desplegado ? (
+          <a
+            href={futuroCliente.proyecto_desplegado}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-1.5 text-[12px] text-muted-foreground hover:text-foreground transition-colors"
           >
-            <Link href={`${basePath}/${futuroCliente.id}`}>
-              <Eye size={14} />
-            </Link>
-          </Button>
+            <ExternalLink size={12} />
+            Ver sitio
+          </a>
+        ) : (
+          <Link href={`${basePath}/${futuroCliente.id}`}>
+            <span className="flex items-center gap-1 text-[12px] text-muted-foreground hover:text-foreground transition-colors cursor-pointer">
+              Ver detalle <ChevronRight size={12} />
+            </span>
+          </Link>
+        )}
 
+        <div className="flex items-center gap-1.5">
           <Button
             variant="ghost"
             size="icon"
-            className="h-7 w-7 rounded-full hover:bg-blue-50 hover:text-blue-600"
+            className="h-7 w-7 rounded-lg border border-border text-muted-foreground hover:text-foreground"
             onClick={() => onEdit(futuroCliente)}
           >
-            <Edit size={14} />
+            <Edit size={13} />
           </Button>
-
           <Button
             variant="ghost"
             size="icon"
-            className="h-7 w-7 rounded-full hover:bg-rose-50 hover:text-rose-600"
+            className="h-7 w-7 rounded-lg border border-border text-muted-foreground hover:text-destructive"
             onClick={() => onDelete(futuroCliente)}
           >
-            <Trash2 size={14} />
+            <Trash2 size={13} />
           </Button>
         </div>
-      </CardFooter>
-    </Card>
+      </div>
+    </div>
   );
 }
