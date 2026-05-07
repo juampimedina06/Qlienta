@@ -15,7 +15,7 @@ export default function ClientProfilePage() {
         </Link>
       </div>
 
-      <div className="w-full p-4 flex justify-center items-center">
+      <div className="w-full p-4 flex justify-center items-center ">
         <UserProfile />
       </div>
     </div>

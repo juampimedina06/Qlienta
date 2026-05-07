@@ -50,7 +50,7 @@ export default function PageClient() {
           </div>
 
           {/* Quick Stats Grid */}
-          <div className="grid w-full grid-cols-2 gap-3 sm:w-auto sm:grid-cols-2">
+          <div className="grid w-full grid-cols-2 gap-3 sm:w-auto sm:grid-cols-2 ">
             <div className="flex flex-col rounded-3xl bg-stone-50/50 p-4 ring-1 ring-stone-100 transition-colors hover:bg-stone-50">
               <span className="text-[10px] font-bold uppercase tracking-wider text-stone-400">
                 Miembro desde

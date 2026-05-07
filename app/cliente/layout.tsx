@@ -53,12 +53,12 @@ export default function ClientLayout({
             {user && !isProfilePage && (
               <Link
                 href="/cliente/profile"
-                className="group flex items-center gap-3 rounded-full border border-stone-200 bg-white/50 p-1 pr-4 transition-all duration-300 hover:border-blue-200 hover:bg-white/90 hover:shadow-md active:scale-[0.98]"
+                className="group flex items-center gap-3 rounded-full border border-stone-200 bg-blue-500/10 pl-4 pr-4 transition-all duration-300 hover:border-blue-200 hover:bg-white/90 hover:shadow-md active:scale-[0.98]"
               >
                 <AvatarBadge
                   name={user.name || "Usuario"}
                   avatar_url={getImagenUrl(user.avatar_url)}
-                  className="h-10 w-20 ring-2 ring-transparent transition-all"
+                  className="h-10 w-20 ring-2 ring-transparent transition-all text-blue-500"
                 />
               </Link>
             )}
@@ -67,7 +67,7 @@ export default function ClientLayout({
       </header>
 
       {/* Main content */}
-      <main className="mx-auto w-full max-w-7xl flex-1 px-4 sm:px-6 lg:px-8 py-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
+      <main className="bg-black/10 mx-auto w-full max-w-7xl flex-1 px-4 sm:px-6 lg:px-8 py-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
         {children}
       </main>
     </section>

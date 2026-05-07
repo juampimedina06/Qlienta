@@ -1,6 +1,5 @@
 "use client";
 import React, { useState } from "react";
-import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -175,17 +174,17 @@ const UserProfile: React.FC<UserProfileProps> = ({
 
             <div className="grid gap-3">
               <button
-                className="group flex w-full items-center gap-4 rounded-2xl bg-white/5 p-4 ring-1 ring-white/20 transition-all hover:ring-blue-200 hover:shadow-lg hover:shadow-blue-500/5 active:scale-[0.98]"
+                className="group flex w-full items-center gap-4 rounded-2xl bg-black/5 p-4 ring-1 ring-white/20 transition-all hover:ring-blue-200 hover:shadow-lg hover:shadow-blue-500/5 active:scale-[0.98]"
                 onClick={handleEditClick}
               >
                 <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-50 text-blue-600 transition-colors group-hover:bg-blue-600 group-hover:text-white">
                   <Edit size={20} />
                 </div>
                 <div className="flex-1 text-left">
-                  <div className="text-sm font-black text-white-900">
+                  <div className="text-sm font-black text-blue-500/80">
                     Editar Perfil
                   </div>
-                  <div className="text-[10px] font-black text-white-400 uppercase tracking-tight">
+                  <div className="text-[10px] font-black text-blue-500/80 uppercase tracking-tight">
                     Nombre y Avatar
                   </div>
                 </div>
@@ -194,16 +193,16 @@ const UserProfile: React.FC<UserProfileProps> = ({
               <Link
                 href="/update-password"
                 intermediate-link="true"
-                className="group flex w-full items-center gap-4 rounded-2xl bg-white/5 p-4 ring-1 ring-stone-100 transition-all hover:ring-purple-200 hover:shadow-lg hover:shadow-purple-500/5 active:scale-[0.98]"
+                className="group flex w-full items-center gap-4 rounded-2xl bg-black/5 p-4 ring-1 ring-stone-100 transition-all hover:ring-purple-200 hover:shadow-lg hover:shadow-purple-500/5 active:scale-[0.98]"
               >
                 <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-purple-50 text-purple-600 transition-colors group-hover:bg-purple-600 group-hover:text-white">
                   <Key size={20} />
                 </div>
                 <div className="flex-1 text-left">
-                  <div className="text-sm font-black text-white-900">
+                  <div className="text-sm font-black text-purple-900">
                     Seguridad
                   </div>
-                  <div className="text-[10px] font-black text-white-400 uppercase tracking-tight">
+                  <div className="text-[10px] font-black text-purple-400 uppercase tracking-tight">
                     Cambiar Contraseña
                   </div>
                 </div>
