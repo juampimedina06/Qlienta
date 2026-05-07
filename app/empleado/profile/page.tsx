@@ -2,7 +2,7 @@ import UserProfile from "@/components/UserProfile";
 
 export default function EmpleadoProfile() {
   return (
-    <div className=" pt-20 flex justify-center items-center">
+    <div className="flex w-full justify-center">
       <UserProfile />
     </div>
   );

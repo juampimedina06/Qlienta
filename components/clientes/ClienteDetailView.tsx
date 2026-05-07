@@ -111,7 +111,7 @@ export function ClienteDetailView({ cliente, onEdit }: ClienteDetailViewProps) {
         <div className="flex flex-col sm:flex-row items-center gap-6">
           <AvatarBadge
             name={cliente.name || "Cliente"}
-            avatar_url={getImagenUrl(cliente.avatar_url || "")}
+            avatar_url={getImagenUrl(cliente.avatar_url)}
             className="h-20 w-20"
           />
           <div className="text-center sm:text-left space-y-2">

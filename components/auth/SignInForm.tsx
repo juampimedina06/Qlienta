@@ -63,65 +63,74 @@ const SignInForm = ({ setTypeSelected }: AuthFormProps) => {
   };
 
   return (
-    <div className="w-full backdrop-blur-xl py-2 rounded-4xl">
-      <div className="text-center">
-        <h1 className="text-3xl font-semibold my-4">Iniciar Sesión</h1>
-        <p className="text-sm text-muted-foreground mb-8">
-          Ingresa para acceder
+    <div className="w-full">
+      <div className="text-center mb-6">
+        <h1 className="text-2xl font-semibold text-white">Iniciar Sesión</h1>
+        <p className="text-sm text-white/40 mt-1">
+          Ingresa tus credenciales para acceder
         </p>
       </div>
 
-      <form onSubmit={handleSubmit(onSubmit)} className="mx-4 space-y-4">
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
         {/* Email */}
-        <div>
-          <label className="text-sm">Correo</label>
+        <div className="space-y-1.5">
+          <label className="text-sm font-medium text-white/70">Correo</label>
           <Input
             type="email"
             placeholder="name@example.com"
             disabled={isLoading}
+            className="bg-white/5 border-white/10 text-white placeholder:text-white/25 focus:border-white/30 focus:ring-white/10 h-11"
             {...register("email")}
           />
           {errors.email && (
-            <p className="text-red-500 text-xs mt-1">{errors.email.message}</p>
+            <p className="text-red-400 text-xs mt-1">{errors.email.message}</p>
           )}
         </div>
 
         {/* Password */}
-        <div>
-          <label className="text-sm">Contraseña</label>
+        <div className="space-y-1.5">
+          <label className="text-sm font-medium text-white/70">
+            Contraseña
+          </label>
           <div className="relative">
             <Input
               type={showPassword ? "text" : "password"}
-              placeholder="*****"
+              placeholder="••••••"
               disabled={isLoading}
-              className="pr-10"
+              className="bg-white/5 border-white/10 text-white placeholder:text-white/25 focus:border-white/30 focus:ring-white/10 h-11 pr-10"
               {...register("password")}
             />
             <button
               type="button"
               onClick={() => setShowPassword(!showPassword)}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-white/30 hover:text-white/60 transition-colors"
             >
               {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
             </button>
           </div>
           {errors.password && (
-            <p className="text-red-500 text-xs mt-1">
+            <p className="text-red-400 text-xs mt-1">
               {errors.password.message}
             </p>
           )}
         </div>
 
         {/* Recover */}
-        <div
-          onClick={() => setTypeSelected("recover-password")}
-          className="underline text-sm text-end cursor-pointer"
-        >
-          ¿Olvidaste tu contraseña?
+        <div className="text-right">
+          <span
+            onClick={() => setTypeSelected("recover-password")}
+            className="text-sm text-white/40 hover:text-white/70 cursor-pointer transition-colors"
+          >
+            ¿Olvidaste tu contraseña?
+          </span>
         </div>
 
         {/* Submit */}
-        <Button type="submit" disabled={isLoading} className="w-full">
+        <Button
+          type="submit"
+          disabled={isLoading}
+          className="w-full h-11 bg-white text-black font-semibold hover:bg-white/90 transition-all duration-200 cursor-pointer"
+        >
           {isLoading && <LoaderCircle className="mr-2 h-4 w-4 animate-spin" />}
           Ingresar
         </Button>

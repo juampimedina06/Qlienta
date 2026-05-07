@@ -5,8 +5,8 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
-export const getImagenUrl = (url : string) => {
-  if(!url) return ""
+export const getImagenUrl = (url?: string | null) => {
+  if (!url) return undefined;
   //agregar timestamp para evitar cache
-  return `${url}?t=${new Date().getTime()}`
-}
+  return `${url}?t=${new Date().getTime()}`;
+};

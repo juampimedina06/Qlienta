@@ -8,7 +8,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { useState } from "react";
-import { LoaderCircle } from "lucide-react";
+import { LoaderCircle, ArrowLeft } from "lucide-react";
 import toast from "react-hot-toast";
 import { AuthFormProps } from "./AuthForm";
 import { sendRecoveryEmail } from "@/actions/auth/auth";
@@ -55,51 +55,53 @@ const RecoverPasswordForm = ({ setTypeSelected }: AuthFormProps) => {
   };
 
   return (
-    <div className="w-full backdrop-blur-xl py-6 rounded-4xl">
-      <div className="px-6">
-        <div className="text-center">
-          <h1 className="text-3xl font-semibold my-4">Recuperar Contraseña</h1>
-          <p className="text-sm text-muted-foreground mb-8">
-            Te enviaremos un correo para recuperar tu contraseña
-          </p>
-        </div>
-
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 ">
-          {/* Email */}
-          <div>
-            <label className="text-sm">Correo</label>
-            <Input
-              type="email"
-              placeholder="name@example.com"
-              disabled={isLoading}
-              {...register("email")}
-            />
-            {errors.email && (
-              <p className="text-red-500 text-xs mt-1">
-                {errors.email.message}
-              </p>
-            )}
-          </div>
-
-          {/* Submit */}
-          <Button type="submit" disabled={isLoading} className="w-full mt-4">
-            {isLoading && (
-              <LoaderCircle className="mr-2 h-4 w-4 animate-spin" />
-            )}
-            Recuperar
-          </Button>
-        </form>
-
-        {/* Volver */}
-        <p className="text-center text-sm mt-4">
-          <span
-            onClick={() => setTypeSelected("sign-in")}
-            className="underline cursor-pointer"
-          >
-            Volver
-          </span>
+    <div className="w-full">
+      <div className="text-center mb-6">
+        <h1 className="text-2xl font-semibold text-white">Recuperar Contraseña</h1>
+        <p className="text-sm text-white/40 mt-1">
+          Te enviaremos un correo para restablecer tu contraseña
         </p>
       </div>
+
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+        {/* Email */}
+        <div className="space-y-1.5">
+          <label className="text-sm font-medium text-white/70">Correo</label>
+          <Input
+            type="email"
+            placeholder="name@example.com"
+            disabled={isLoading}
+            className="bg-white/5 border-white/10 text-white placeholder:text-white/25 focus:border-white/30 focus:ring-white/10 h-11"
+            {...register("email")}
+          />
+          {errors.email && (
+            <p className="text-red-400 text-xs mt-1">
+              {errors.email.message}
+            </p>
+          )}
+        </div>
+
+        {/* Submit */}
+        <Button
+          type="submit"
+          disabled={isLoading}
+          className="w-full h-11 bg-white text-black font-semibold hover:bg-white/90 transition-all duration-200"
+        >
+          {isLoading && (
+            <LoaderCircle className="mr-2 h-4 w-4 animate-spin" />
+          )}
+          Enviar enlace
+        </Button>
+      </form>
+
+      {/* Volver */}
+      <button
+        onClick={() => setTypeSelected("sign-in")}
+        className="flex items-center justify-center gap-2 w-full mt-4 text-sm text-white/40 hover:text-white/70 transition-colors cursor-pointer"
+      >
+        <ArrowLeft size={14} />
+        Volver al inicio de sesión
+      </button>
     </div>
   );
 };
