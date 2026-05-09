@@ -39,8 +39,8 @@ export function ClienteProyectos() {
   if (loading) {
     return (
       <div className=" flex flex-col items-center justify-center py-20 gap-4">
-        <Loader2 className="h-10 w-10 animate-spin text-amber-500" />
-        <p className="text-stone-400 animate-pulse">Cargando tu proyecto...</p>
+        <Loader2 className="h-10 w-10 animate-spin text-blue-500" />
+        <p className="text-stone-400 animate-pulse text-xs font-bold uppercase tracking-widest">Cargando tu proyecto...</p>
       </div>
     );
   }

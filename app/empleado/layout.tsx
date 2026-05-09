@@ -77,12 +77,13 @@ export default function EmpleadoLayout({
         loop
         muted
         playsInline
-        className="absolute inset-0 fixed "
+        className="absolute inset-0 fixed z-[-10] "
       >
         <source src="/videos/humo.mp4" type="video/mp4" />
       </video>
 
       {/* OSCURESME EL VIDEO */}
+      <div className="absolute inset-0 z-0 bg-black/50 fixed z-[-10]" />
 
       {/* Sleek Dark Header */}
       <header className="sticky top-0 z-50 border-b border-zinc-800/50 bg-[#050505]/80 backdrop-blur-md">

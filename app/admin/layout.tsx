@@ -66,7 +66,7 @@ export default function AdminLayout({
         loop
         muted
         playsInline
-        className="absolute inset-0 fixed "
+        className="absolute inset-0 fixed z-[-10] "
       >
         <source src="/videos/rayas_verdes.mp4" type="video/mp4" />
       </video>

@@ -95,7 +95,7 @@ export function FuturoClienteDetail({
   return (
     <div
       className={cn(
-        "max-w-5xl mx-auto space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700",
+        "max-w-5xl mx-auto space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700 ",
         isEmpleado && "text-zinc-100",
       )}
     >
@@ -208,20 +208,20 @@ export function FuturoClienteDetail({
           {/* Contact Information Card */}
           <div
             className={cn(
-              "p-6 md:p-8 rounded-[2rem] border shadow-sm space-y-8",
+              "p-6 md:p-8 rounded-[2rem] border shadow-sm space-y-8 ",
               isEmpleado
                 ? "bg-zinc-900/40 border-zinc-800 shadow-2xl"
                 : "bg-card border-border/50",
             )}
           >
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-3 ">
               <p
                 className={cn(
                   "text-[10px] uppercase font-black tracking-[0.3em] shrink-0",
                   isEmpleado ? "text-emerald-500/70" : "text-muted-foreground",
                 )}
               >
-                Dossier de Contacto
+                Datos de Contacto
               </p>
               <div
                 className={cn(

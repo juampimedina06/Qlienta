@@ -30,7 +30,7 @@ export default async function FuturoClienteDetailPage({ params }: PageProps) {
   }
 
   return (
-    <div className="w-full">
+    <div className="w-full ">
       <FuturoClienteDetail futuroCliente={result.data} variant="empleado" />
     </div>
   );
