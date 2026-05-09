@@ -5,10 +5,10 @@ import {
   Edit,
   Trash2,
   MapPin,
+  Eye,
   Mail,
   Building2,
   ExternalLink,
-  ChevronRight,
 } from "lucide-react";
 import Image from "next/image";
 import { format } from "date-fns";
@@ -41,7 +41,7 @@ export function FuturoClienteCard({
     estadoConfig[futuroCliente.estado] ?? estadoConfig["en creacion"];
 
   return (
-    <div className="group flex flex-col overflow-hidden rounded-xl border border-border bg-card transition-colors hover:border-border/80">
+    <div className="group flex flex-col overflow-hidden rounded-xl border border-border bg-[#050505]/80 transition-colors hover:border-border/80">
       {/* Body */}
       <div className="flex flex-col gap-5 p-5">
         {/* Top row */}
@@ -110,20 +110,19 @@ export function FuturoClienteCard({
             href={futuroCliente.proyecto_desplegado}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-1.5 text-[12px] text-muted-foreground hover:text-foreground transition-colors"
+            className="flex items-center gap-1.5 text-[12px] text-green-600 hover:text-foreground transition-colors font-bold"
           >
             <ExternalLink size={12} />
             Ver sitio
           </a>
-        ) : (
-          <Link href={`${basePath}/${futuroCliente.id}`}>
-            <span className="flex items-center gap-1 text-[12px] text-muted-foreground hover:text-foreground transition-colors cursor-pointer">
-              Ver detalle <ChevronRight size={12} />
-            </span>
-          </Link>
-        )}
+        ) : null}
 
         <div className="flex items-center gap-1.5">
+          <Link href={`${basePath}/${futuroCliente.id}`}>
+            <span className="flex items-center justify-center h-7 w-7 rounded-lg border border-border text-muted-foreground hover:text-foreground">
+              <Eye size={13} />
+            </span>
+          </Link>
           <Button
             variant="ghost"
             size="icon"

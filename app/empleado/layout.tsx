@@ -26,10 +26,16 @@ function NavLink({
       href={href}
       className={cn(
         "group relative flex items-center gap-2.5 px-4 py-2 text-sm font-semibold transition-all duration-300",
-        isActive ? "text-emerald-400" : "text-zinc-400 hover:text-zinc-100"
+        isActive ? "text-emerald-400" : "text-zinc-400 hover:text-zinc-100",
       )}
     >
-      <Icon size={18} className={cn("transition-transform group-hover:scale-110", isActive ? "text-emerald-400" : "text-zinc-500")} />
+      <Icon
+        size={18}
+        className={cn(
+          "transition-transform group-hover:scale-110",
+          isActive ? "text-emerald-400" : "text-zinc-500",
+        )}
+      />
       <span className="relative z-10">{label}</span>
       {isActive && (
         <>
@@ -62,17 +68,21 @@ export default function EmpleadoLayout({
   const navLinks = [
     { href: "/empleado", label: "Dashboard", icon: LayoutDashboard },
     { href: "/empleado/desplegados", label: "Desplegados", icon: Rocket },
-    { href: "/empleado/profile", label: "Mi Perfil", icon: User },
   ];
 
   return (
-    <section className="min-h-screen flex flex-col bg-[#050505] text-zinc-100">
-      {/* Premium Obsidian Background Decor */}
-      <div className="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
-        <div className="absolute -top-[10%] -left-[10%] h-[40%] w-[40%] rounded-full bg-emerald-900/10 blur-[120px]" />
-        <div className="absolute top-[20%] -right-[5%] h-[30%] w-[30%] rounded-full bg-teal-900/5 blur-[100px]" />
-        <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))]" />
-      </div>
+    <section className="min-h-screen flex flex-col text-zinc-100">
+      <video
+        autoPlay
+        loop
+        muted
+        playsInline
+        className="absolute inset-0 fixed "
+      >
+        <source src="/videos/humo.mp4" type="video/mp4" />
+      </video>
+
+      {/* OSCURESME EL VIDEO */}
 
       {/* Sleek Dark Header */}
       <header className="sticky top-0 z-50 border-b border-zinc-800/50 bg-[#050505]/80 backdrop-blur-md">
@@ -160,9 +170,9 @@ export default function EmpleadoLayout({
                     href={link.href}
                     className={cn(
                       "flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold transition-all",
-                      isActive 
-                        ? "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20" 
-                        : "text-zinc-400 hover:bg-zinc-900"
+                      isActive
+                        ? "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20"
+                        : "text-zinc-400 hover:bg-zinc-900",
                     )}
                   >
                     <link.icon size={18} />

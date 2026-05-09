@@ -97,7 +97,7 @@ const UserProfile: React.FC<UserProfileProps> = ({
 
   if (!profile) {
     return (
-      <Card className={`w-full max-w-md ${className}`}>
+      <Card className={`w-full max-w-md ${className} `}>
         <CardHeader>
           <CardTitle className="text-xl">Perfil no encontrado</CardTitle>
           <CardDescription>
@@ -118,7 +118,7 @@ const UserProfile: React.FC<UserProfileProps> = ({
 
   return (
     <>
-      <Card className={`w-full max-w-md ${className}`}>
+      <Card className={`w-full max-w-md ${className} `}>
         <CardContent className="space-y-6 pt-6">
           {/* Información del usuario */}
           <div>

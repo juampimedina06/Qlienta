@@ -60,11 +60,16 @@ export default function AdminLayout({
   }, [pathname]);
 
   return (
-    <section className="min-h-screen flex flex-col relative">
-      {/* Subtle gradient background */}
-      <div className="fixed inset-0 -z-20 bg-[#0a0a0a]" />
-      <div className="fixed inset-0 -z-10 bg-[radial-gradient(ellipse_at_top_right,_rgba(120,119,198,0.08),_transparent_50%)]" />
-      <div className="fixed inset-0 -z-10 bg-[radial-gradient(ellipse_at_bottom_left,_rgba(70,130,180,0.05),_transparent_40%)]" />
+    <section className="min-h-screen flex flex-col relative ">
+      <video
+        autoPlay
+        loop
+        muted
+        playsInline
+        className="absolute inset-0 fixed "
+      >
+        <source src="/videos/rayas_verdes.mp4" type="video/mp4" />
+      </video>
 
       {/* Header */}
       <header className="sticky top-0 z-50 border-b border-white/5 bg-black/90">

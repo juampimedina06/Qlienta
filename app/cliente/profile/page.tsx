@@ -16,7 +16,7 @@ export default function ClientProfilePage() {
       </div>
 
       <div className="w-full p-4 flex justify-center items-center ">
-        <UserProfile />
+        <UserProfile className="z-10 bg-[#050505]/80" />
       </div>
     </div>
   );

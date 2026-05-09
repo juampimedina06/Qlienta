@@ -17,7 +17,16 @@ export default function ClientLayout({
   const isProfilePage = pathname === "/cliente/profile";
 
   return (
-    <section className="min-h-screen flex flex-col luxury-bg">
+    <section className="min-h-screen flex flex-col ">
+      <video
+        autoPlay
+        loop
+        muted
+        playsInline
+        className="absolute inset-0 fixed "
+      >
+        <source src="/videos/elegancia.mp4" type="video/mp4" />
+      </video>
       {/* Premium Glass Header */}
       <header className="glass-header">
         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
@@ -67,7 +76,7 @@ export default function ClientLayout({
       </header>
 
       {/* Main content */}
-      <main className="bg-black/10 mx-auto w-full max-w-7xl flex-1 px-4 sm:px-6 lg:px-8 py-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
+      <main className="mx-auto w-full max-w-7xl flex-1 px-4 sm:px-6 lg:px-8 py-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
         {children}
       </main>
     </section>

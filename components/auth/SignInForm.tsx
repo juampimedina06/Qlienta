@@ -12,7 +12,6 @@ import { LoaderCircle, Eye, EyeOff } from "lucide-react";
 import toast from "react-hot-toast";
 import { AuthFormProps } from "./AuthForm";
 import { login } from "@/actions/auth/auth";
-import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
   email: z.string().email("Correo inválido"),
@@ -24,8 +23,6 @@ type FormData = z.infer<typeof formSchema>;
 const SignInForm = ({ setTypeSelected }: AuthFormProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-
-  const router = useRouter();
 
   const {
     register,
@@ -41,18 +38,23 @@ const SignInForm = ({ setTypeSelected }: AuthFormProps) => {
       const res = await login(data);
 
       if (res.success) {
-        toast.success("Inicio de sesion exitoso");
+        toast.success("Inicio de sesión exitoso");
 
         const role = res.data?.role;
+
+        // --- IMPLEMENTACIÓN OPCIÓN 3 ---
+        // Usamos .assign() en lugar de .href =
+        // Esto ejecuta la redirección como un método, evitando el error de mutación.
         if (role === "admin") {
-          router.push("/admin");
+          window.location.assign("/admin");
         } else if (role === "empleado") {
-          router.push("/empleado");
+          window.location.assign("/empleado");
         } else if (role === "cliente") {
-          router.push("/cliente");
+          window.location.assign("/cliente");
         } else {
           toast.error(res.error || "Error al iniciar sesión");
         }
+        // -------------------------------
       } else {
         toast.error(res.error || "Error al iniciar sesión");
       }
@@ -128,7 +130,7 @@ const SignInForm = ({ setTypeSelected }: AuthFormProps) => {
           </span>
         </div>
 
-        {/* Submit */}
+        {/* Submit Button */}
         <Button
           type="submit"
           disabled={isLoading}

@@ -148,34 +148,41 @@ export function FuturosClientesList({
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6">
         <div className="space-y-1">
           <h1 className="text-3xl font-black tracking-tight text-white">
-            Pipeline Directo
+            {soloDesplegados ? "Clientes Desplegados" : "Clientes Potenciales"}
           </h1>
           <p className="text-sm font-medium text-zinc-500">
             Gestión de leads y oportunidades activas
           </p>
         </div>
-        <Button
-          onClick={() => {
-            setEditingItem(null);
-            setIsFormOpen(true);
-          }}
-          className="group relative overflow-hidden bg-white hover:bg-white text-black font-black uppercase tracking-widest px-6 py-6 rounded-2xl transition-all active:scale-95 "
-        >
-          <div className="absolute inset-0 bg-white opacity-0 group-hover:opacity-20 transition-opacity" />
-          <Plus size={20} className="mr-2" />
-          Futuro cliente
-        </Button>
+        {!soloDesplegados && (
+          <Button
+            onClick={() => {
+              setEditingItem(null);
+              setIsFormOpen(true);
+            }}
+            className="group relative overflow-hidden bg-white hover:bg-white text-black font-black uppercase tracking-widest px-6 py-6 rounded-2xl transition-all active:scale-95 "
+          >
+            <div className="absolute inset-0 bg-white opacity-0 group-hover:opacity-20 transition-opacity" />
+            <Plus size={20} className="mr-2" />
+            Futuro cliente
+          </Button>
+        )}
       </div>
 
-      <FuturoClientesFilters
-        currentFilters={filters}
-        onSearchChange={(search) => setFilters((prev) => ({ ...prev, search }))}
-        onEstadoChange={(estado) => setFilters((prev) => ({ ...prev, estado }))}
-        onCategoriaChange={(categoria) =>
-          setFilters((prev) => ({ ...prev, categoria }))
-        }
-      />
-
+      {!soloDesplegados && (
+        <FuturoClientesFilters
+          currentFilters={filters}
+          onSearchChange={(search) =>
+            setFilters((prev) => ({ ...prev, search }))
+          }
+          onEstadoChange={(estado) =>
+            setFilters((prev) => ({ ...prev, estado }))
+          }
+          onCategoriaChange={(categoria) =>
+            setFilters((prev) => ({ ...prev, categoria }))
+          }
+        />
+      )}
       {initialLoading ? (
         <div className="flex flex-col items-center justify-center py-32 gap-6">
           <div className="relative">

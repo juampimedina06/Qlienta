@@ -96,7 +96,7 @@ export default function PageClient() {
                   />
                 </svg>
               </div>
-              <h2 className="text-2xl font-black tracking-tight text-stone-900">
+              <h2 className="text-2xl font-black tracking-tight text-white">
                 Mis Proyectos
               </h2>
             </div>
