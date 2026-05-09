@@ -68,7 +68,10 @@ export default function AdminLayout({
         playsInline
         className="absolute inset-0 fixed z-[-10] "
       >
-        <source src="/videos/rayas_verdes.mp4" type="video/mp4" />
+        <source
+          src="https://res.cloudinary.com/dtpwvfdhj/video/upload/rayas_verdes_mcbn8j.mp4"
+          type="video/mp4"
+        />
       </video>
 
       {/* Header */}

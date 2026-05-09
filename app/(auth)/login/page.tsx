@@ -5,7 +5,10 @@ export default function Login() {
     <section className="relative flex items-center justify-center min-h-screen overflow-hidden ">
       {/* Video Background */}
       <video autoPlay loop muted playsInline className="absolute inset-0 ">
-        <source src="/videos/rayas_verdes.mp4" type="video/mp4" />
+        <source
+          src="https://res.cloudinary.com/dtpwvfdhj/video/upload/rayas_verdes_mcbn8j.mp4"
+          type="video/mp4"
+        />
       </video>
 
       {/* Content */}

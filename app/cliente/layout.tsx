@@ -25,7 +25,10 @@ export default function ClientLayout({
         playsInline
         className="absolute inset-0 fixed "
       >
-        <source src="/videos/elegancia.mp4" type="video/mp4" />
+        <source
+          src="https://res.cloudinary.com/dtpwvfdhj/video/upload/elegancia_hlqi7p.mp4"
+          type="video/mp4"
+        />
       </video>
       {/* Premium Glass Header */}
       <header className="glass-header">

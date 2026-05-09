@@ -79,7 +79,10 @@ export default function EmpleadoLayout({
         playsInline
         className="absolute inset-0 fixed z-[-10] "
       >
-        <source src="/videos/humo.mp4" type="video/mp4" />
+        <source
+          src="https://res.cloudinary.com/dtpwvfdhj/video/upload/64917-511355333_kzjicd.mp4"
+          type="video/mp4"
+        />
       </video>
 
       {/* OSCURESME EL VIDEO */}
