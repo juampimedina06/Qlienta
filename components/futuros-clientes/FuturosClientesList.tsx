@@ -159,7 +159,7 @@ export function FuturosClientesList({
             setEditingItem(null);
             setIsFormOpen(true);
           }}
-          className="group relative overflow-hidden bg-emerald-500 hover:bg-emerald-400 text-black font-black uppercase tracking-widest px-6 py-6 rounded-2xl transition-all active:scale-95 shadow-[0_0_20px_rgba(16,185,129,0.3)]"
+          className="group relative overflow-hidden bg-white hover:bg-white text-black font-black uppercase tracking-widest px-6 py-6 rounded-2xl transition-all active:scale-95 "
         >
           <div className="absolute inset-0 bg-white opacity-0 group-hover:opacity-20 transition-opacity" />
           <Plus size={20} className="mr-2" />

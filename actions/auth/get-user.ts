@@ -35,6 +35,4 @@ export async function getUser(): Promise<User | null> {
         console.error('Error al obtener el usuario:', error);
         return null;
     }
-
-    
 }
